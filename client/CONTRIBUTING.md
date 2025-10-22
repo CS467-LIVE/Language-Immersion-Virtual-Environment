@@ -92,7 +92,7 @@ Assets/
 | **Variables** | camelCase | `moveSpeed` |
 | **Constants** | ALL_CAPS | `MAX_ENEMIES` |
 | **Assets** | Context_Suffix | `Player_Mat`, `EnemyGoblin.prefab` |
-| **Scenes** | Number_Purpose | `01_MainMenu` |
+| **Scenes** | Purpose | `MainMenu` |
 | **ScriptableObjects** | SO_Purpose | `SO_WeaponStats` |
 
 ---
