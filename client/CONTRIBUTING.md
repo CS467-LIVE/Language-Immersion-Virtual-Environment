@@ -11,7 +11,7 @@ This document defines naming and organization conventions to keep our Unity proj
 | **Scripts, Classes, Prefabs, Assets** | **PascalCase** (EveryWordCapitalized) | `PlayerController.cs`, `EnemySpawner.prefab` |
 | **Variables & Fields** | **camelCase** (firstWordLowercase) | `playerHealth`, `enemyCount` |
 | **Constants & Enums** | **ALL_CAPS_WITH_UNDERSCORES** | `MAX_HEALTH`, `GAME_STATE_IDLE` |
-| **File names that mirror data** | **snake_case** | `player_stats.json`, `level_data_01.txt` |
+| **Folders (we own)** | **PascalCase** | `Integrations`, `MissionSystem`, `UI` |
 | **Avoid** | Spaces, special characters | ❌ `My Script.cs`, ✅ `MyScript.cs` |
 
 ---
@@ -20,44 +20,35 @@ This document defines naming and organization conventions to keep our Unity proj
 
 ```
 Assets/
- ├── Art/
- │    ├── Models/
- │    ├── Materials/
- │    └── Textures/
- ├── Audio/
- ├── Prefabs/
- ├── Scenes/
- ├── Scripts/
- │    ├── Player/
- │    ├── Enemies/
- │    ├── UI/
- │    └── Managers/
- ├── UI/
- │    ├── Sprites/
- │    ├── Fonts/
- │    └── Prefabs/
- ├── ScriptableObjects/
- └── Plugins/
+ ├── _Project/                     # Everything we create and own
+ │    ├── Scenes/
+ │    │    ├── _Sandboxes/         # Personal or feature test scenes
+ │    │    └── Game.unity
+ │    ├── Scripts/
+ │    │    ├── Core/
+ │    │    ├── MissionSystem/
+ │    │    └── UI/
+ │    ├── Integrations/
+ │    │    ├── PolygonCity/        # Our prefabs, variants, or overrides that use vendor assets
+ │    │    └── OtherVendor/
+ │    ├── ScriptableObjects/
+ │    ├── Tools/Editor/
+ │    └── Assemblies/              # asmdefs (Runtime, Editor, Tests)
+ │
+ ├── _Vendors/                     # Store-bought packs, unmodified
+ │    ├── PolygonCity/
+ │    └── OtherPaidPack/
+ │
+ └── Plugins/                      # Only for plugins that require this path (rare)
 ```
-
-💡 *Subsystems (like “Inventory” or “MissionSystem”) should each have their own folder under `Scripts/` and `Prefabs/` if applicable.*
 
 ---
 
 ## 🧩 3. Asset Naming Conventions
 
-| Asset Type | Convention | Example |
-|-------------|-------------|----------|
-| **Scenes** | Purpose | `MainMenu` |
-| **Prefabs** | Descriptive noun | `Player.prefab`, `EnemyGoblin.prefab` |
-| **Materials** | Suffix `_Mat` | `Player_Mat.mat` |
-| **Textures** | Suffix `_Tex`, optional resolution | `Ground_Tex_2K.png` |
-| **Models** | Suffix `_Model` or `_FBX` | `Tree_Model.fbx` |
-| **Animations** | `_Anim` for clips, `_AC` for controllers | `Run_Anim.anim`, `Player_AC.controller` |
-| **Audio** | Prefix by category + suffix `_SFX` or `_BGM` | `UI_Click_SFX.wav`, `Battle_BGM.mp3` |
-| **ScriptableObjects** | Prefix with `SO_` | `SO_WeaponStats.asset`, `SO_LevelData.asset` |
-| **Shaders** | Suffix `_Shader` | `Water_Shader.shader` |
-| **Sprites/UI** | Prefix by context | `UI_Button_Normal.png`, `HUD_HealthBar.png` |
+💡 We do not create original art, models, or audio.
+All store-bought assets stay exactly as imported under `_Vendors/`.
+We never rename or reorganize vendor files.
 
 ---
 
@@ -91,8 +82,12 @@ Assets/
 | **Scripts / Classes** | PascalCase | `PlayerController` |
 | **Variables** | camelCase | `moveSpeed` |
 | **Constants** | ALL_CAPS | `MAX_ENEMIES` |
+<<<<<<< HEAD
 | **Assets** | Context_Suffix | `Player_Mat`, `EnemyGoblin.prefab` |
 | **Scenes** | Purpose | `MainMenu` |
+=======
+| **Scenes** | PascalCase | `MainMenu` |
+>>>>>>> 1d3371f (Refactor Unity project style guide for only vendor asset use)
 | **ScriptableObjects** | SO_Purpose | `SO_WeaponStats` |
 
 ---
