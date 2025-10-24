@@ -82,12 +82,7 @@ We never rename or reorganize vendor files.
 | **Scripts / Classes** | PascalCase | `PlayerController` |
 | **Variables** | camelCase | `moveSpeed` |
 | **Constants** | ALL_CAPS | `MAX_ENEMIES` |
-<<<<<<< HEAD
-| **Assets** | Context_Suffix | `Player_Mat`, `EnemyGoblin.prefab` |
-| **Scenes** | Purpose | `MainMenu` |
-=======
 | **Scenes** | PascalCase | `MainMenu` |
->>>>>>> 1d3371f (Refactor Unity project style guide for only vendor asset use)
 | **ScriptableObjects** | SO_Purpose | `SO_WeaponStats` |
 
 ---
