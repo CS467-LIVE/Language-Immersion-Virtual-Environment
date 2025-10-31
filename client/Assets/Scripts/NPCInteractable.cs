@@ -2,25 +2,40 @@ using UnityEngine;
 
 public class NPCInteractable : MonoBehaviour
 {
-    [Header("NPC Info")]
-    public string npcName = "NPC";
-    public string npcRole = "Citizen";
-    
-    [Header("Interaction Settings")]
-    public float interactionRange = 3f;
-    
-    void OnTriggerExit(Collider other)
+  [Header("NPC Info")]
+  public string npcID = "npc_default";
+  public string npcName = "NPC";
+  public string npcRole = "Citizen";
+
+  private MissionManager missionManager;
+
+  void Start()
+  {
+    missionManager = FindObjectOfType<MissionManager>();
+
+    // Error if MissionManager not found
+    if (missionManager == null)
     {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log($"Player left {npcName}");
-        }
+      Debug.LogError($"[NPC {npcName}] Could not find MissionManager in scene.");
     }
-    
-    public void Interact()
+  }
+
+  public void Interact()
+  {
+    Debug.Log($"[NPC] Player interacting with {npcName}");
+
+    // Check if this NPC is active for current mission
+    if (missionManager != null && missionManager.IsNPCActiveForMission(npcID))
     {
-        Debug.Log($"Interacting with {npcName} ({npcRole})");
-        // Need to do: Connect to dialogue system
-        // Need to do: Connect to mission system
+      Debug.Log($"[NPC] {npcName} is active for mission!");
+
+      // For now, automatically complete the step
+      // Need to do: Start dialogue system here
+      missionManager.CompleteCurrentStep();
     }
+    else
+    {
+      Debug.Log($"[NPC] {npcName}: I have nothing for you right now.");
+    }
+  }
 }
