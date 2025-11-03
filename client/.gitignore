@@ -101,3 +101,5 @@ InitTestScene*.unity*
 # POLYGON Asset Packs (shared on Google Drive)
 Assets/PolygonCity/
 Assets/PolygonCity.meta
+
+.vs/
