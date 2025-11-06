@@ -9,17 +9,17 @@ public class HotkeyEventTester : MonoBehaviour
         var kb = Keyboard.current;
         if (kb == null) return; // no keyboard attached
 
-        if (kb.hKey.wasPressedThisFrame)
-        {
-            GameEvents.Raise(new GameEvent { type = "BoughtItem", subjectId = "HOT_DOG", amount = 1 });
-        }
-        if (kb.tKey.wasPressedThisFrame)
-        {
-            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "NPC_VENDOR_1", amount = 1 });
-        }
-        if (kb.zKey.wasPressedThisFrame)
-        {
-            GameEvents.Raise(new GameEvent { type = "EnteredZone", subjectId = "ZONE_MARKET", amount = 1 });
-        }
+        if (kb.cKey.wasPressedThisFrame)
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "NPC_CITIZEN_DISTRESSED", amount = 1 });
+
+        if (kb.dKey.wasPressedThisFrame)
+            GameEvents.Raise(new GameEvent { type = "Custom", subjectId = "LOST_ITEM_DETAILS", amount = 1 });
+
+        if (kb.pKey.wasPressedThisFrame)
+            GameEvents.Raise(new GameEvent { type = "EnteredZone", subjectId = "ZONE_POLICE_STATION", amount = 1 });
+
+        if (kb.oKey.wasPressedThisFrame)
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "NPC_POLICE_OFFICER", amount = 1 });
+
     }
 }
