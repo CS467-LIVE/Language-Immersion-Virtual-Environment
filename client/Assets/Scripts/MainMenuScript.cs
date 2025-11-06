@@ -6,7 +6,7 @@ public class MainMenuScript : MonoBehaviour
     public void StartGame()
     {   
         // Additional Option: SceneManager.LoadScene("GameSceneName");
-        SceneManager.LoadScene("TestScene"); 
+        SceneManager.LoadScene(1); 
     }
 
     public void ExitGame()
