@@ -2,16 +2,50 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    [Header("Movement")]
+    public float moveSpeed = 5f;    // Speed of movement
+    public float jumpHeight = 2f;   // Height of the jump
+    public float gravity = -9.81f;  // How strong gravity is
+
+    private CharacterController controller;
+    private Vector3 velocity;   // Tracks vertical movement
     
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+    }
+
     void Update()
     {
+        // Check if grounded
+        bool isGrounded = controller.isGrounded;
+
+        // Reset falling velocity when grounded
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // Small downward force to stay grounded
+        }
+
         // Get input from keyboard
         float horizontal = Input.GetAxis("Horizontal"); // A/D or Left/Right
         float vertical = Input.GetAxis("Vertical");     // W/S or Up/Down
-        
+
         // Move in direction player is facing
         Vector3 movement = transform.forward * vertical + transform.right * horizontal;
-        transform.position += movement * moveSpeed * Time.deltaTime;
+
+        // CharacterController for collisions
+        controller.Move(movement * moveSpeed * Time.deltaTime);
+
+        // Jump
+        // When spacebar pressed and on ground
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            // Calculate jump velocity
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        // Always apply gravity
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 }
