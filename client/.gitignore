@@ -103,3 +103,5 @@ Assets/PolygonCity/
 Assets/PolygonCity.meta
 
 .vs/
+.vscode/
+.idea/
