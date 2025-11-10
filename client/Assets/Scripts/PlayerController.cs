@@ -3,9 +3,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 5f;    // Speed of movement
-    public float jumpHeight = 2f;   // Height of the jump
-    public float gravity = -9.81f;  // How strong gravity is
+    public float moveSpeed = 5.5f;    // Speed of movement
+    public float jumpHeight = 1f;   // Height of the jump
+    public float gravity = -14f;  // How strong gravity is
 
     private CharacterController controller;
     private Vector3 velocity;   // Tracks vertical movement
