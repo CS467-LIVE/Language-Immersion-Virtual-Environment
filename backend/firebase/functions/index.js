@@ -20,24 +20,26 @@ app.get('/:npc_name', async (req, res) => {
         {
 
             "role": "user",
-            "content": "Are you looking for something?"
+            "content": "Do you know my name?"
         }
     ]
 
 
-
     const openai = new OpenAI({
-        baseURL: "https://router.huggingface.co/v1",
-        apiKey: process.env.LIVE_HFTOKEN
+        baseURL: "https://api.openai.com/v1",
+        apiKey: process.env.LIVE_OPENAIKEY
     });
 
     try {
         const response = await openai.responses.create({
-        model: "openai/gpt-oss-20b",
+        model: "gpt-5-nano",
+        // previous_response_id: "<response_id here>",
         input: messages,
+        store: true
         });
 
     res.send(response.output_text);
+
     
     } catch (error) {
         console.error(error);
