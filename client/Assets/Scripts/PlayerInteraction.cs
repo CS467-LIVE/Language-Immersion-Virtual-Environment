@@ -1,4 +1,5 @@
 using UnityEngine;
+using Systems.Events;
 
 public class PlayerInteraction : MonoBehaviour
 {
