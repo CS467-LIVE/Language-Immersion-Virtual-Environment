@@ -1,96 +1,90 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using Systems.Events;   // from Step 1
-                        // (GameEvents + GameEvent)
+using Systems.Events;
+
 namespace Systems.Missions
 {
     public class MissionManager : MonoBehaviour
     {
-        [Header("Catalog (drag your Mission assets here)")]
+        [Header("Catalog (drag mission assets here)")]
         public List<MissionDefinition> catalog = new();
 
-        [Header("Runtime (debug view)")]
+        [Header("Runtime (debug)")]
         [SerializeField] private List<MissionRuntime> active = new();
         [SerializeField] private int starsEarnedTotal = 0;
-
-        private int totalStarsInGame;
-
-        void Awake()
-        {
-            totalStarsInGame = catalog.Sum(m => Mathf.Max(0, m.starReward));
-        }
 
         void OnEnable()
         {
             GameEvents.OnEvent += HandleEvent;
-            // For Step 2, auto-activate all missions in catalog so you can test quickly.
-            AutoActivateAll();
+            // For now: activate everything so you can test quickly
+            ActivateAll();
         }
 
-        void OnDisable()
-        {
-            GameEvents.OnEvent -= HandleEvent;
-        }
+        void OnDisable() => GameEvents.OnEvent -= HandleEvent;
 
-        private void AutoActivateAll()
+        void ActivateAll()
         {
             active.Clear();
             foreach (var def in catalog)
             {
-                var mr = new MissionRuntime
-                {
-                    missionId = def.missionId,
-                    progress = 0,
-                    required = Mathf.Max(1, def.targetCount),
-                    completed = false
-                };
+                var mr = new MissionRuntime { missionId = def.missionId };
+                foreach (var o in def.objectives)
+                    mr.objectives.Add(new ObjectiveState { objectiveId = o.objectiveId, required = Mathf.Max(1, o.targetCount) });
+
                 active.Add(mr);
-                Debug.Log($"[Missions] Activated: {def.displayName} (need {mr.required} x {def.targetId})");
+                Debug.Log($"[Missions] Activated: {def.displayName} ({def.objectives.Count} steps)");
             }
         }
 
-        private void HandleEvent(GameEvent e)
+        void HandleEvent(GameEvent e)
         {
-            // Check all active missions for a match
-            foreach (var mr in active.Where(a => !a.completed))
+            foreach (var mr in active.Where(m => !m.completed))
             {
                 var def = catalog.FirstOrDefault(d => d.missionId == mr.missionId);
                 if (def == null) continue;
 
-                if (Matches(def, e))
-                {
-                    mr.progress += Mathf.Max(1, e.amount);
-                    Debug.Log($"[Missions] Progress {def.displayName}: {mr.progress}/{mr.required}");
+                // Only the current objective is active (sequential flow)
+                if (mr.currentIndex < 0 || mr.currentIndex >= def.objectives.Count) continue;
 
-                    if (mr.progress >= mr.required)
+                var oDef = def.objectives[mr.currentIndex];
+                var oState = mr.objectives[mr.currentIndex];
+
+                if (Matches(e, oDef))
+                {
+                    oState.progress += Mathf.Max(1, e.amount);
+                    Debug.Log($"[Missions] {def.displayName} — {oDef.objectiveId}: {oState.progress}/{oState.required}");
+
+                    if (oState.progress >= oState.required)
                     {
-                        mr.completed = true;
-                        starsEarnedTotal += Mathf.Max(0, def.starReward);
-                        Debug.Log($"[Missions] COMPLETED: {def.displayName} (+{def.starReward}⭐)  Total Stars: {starsEarnedTotal}/{totalStarsInGame}");
-                        CheckForCredits();
+                        oState.done = true;
+                        mr.currentIndex++;
+
+                        if (mr.currentIndex >= def.objectives.Count)
+                        {
+                            mr.completed = true;
+                            starsEarnedTotal += Mathf.Max(0, def.starReward);
+                            Debug.Log($"[Missions] COMPLETED: {def.displayName} (+{def.starReward}⭐)  Total Stars: {starsEarnedTotal}");
+                        }
+                        else
+                        {
+                            var next = def.objectives[mr.currentIndex];
+                            Debug.Log($"[Missions] Next step: {next.objectiveId} — {next.uiHint}");
+                        }
                     }
                 }
             }
         }
 
-        private bool Matches(MissionDefinition def, GameEvent e)
+        bool Matches(GameEvent e, ObjectiveDef o)
         {
-            switch (def.type)
+            switch (o.type)
             {
-                case ObjectiveType.BuyItem: return e.type == "BoughtItem" && e.subjectId == def.targetId;
-                case ObjectiveType.TalkToNPC: return e.type == "TalkedTo" && e.subjectId == def.targetId;
-                case ObjectiveType.EnterZone: return e.type == "EnteredZone" && e.subjectId == def.targetId;
+                case ObjectiveType.BuyItem: return e.type == "BoughtItem" && e.subjectId == o.targetId;
+                case ObjectiveType.TalkToNPC: return e.type == "TalkedTo" && e.subjectId == o.targetId;
+                case ObjectiveType.EnterZone: return e.type == "EnteredZone" && e.subjectId == o.targetId;
+                case ObjectiveType.CustomEvent: return e.type == "Custom" && e.subjectId == o.targetId; // use targetId as event key
                 default: return false;
-            }
-        }
-
-        private void CheckForCredits()
-        {
-            if (starsEarnedTotal >= totalStarsInGame && totalStarsInGame > 0)
-            {
-                Debug.Log("[Missions] All stars collected — roll credits!");
-                // SceneManager.LoadScene("Credits"); // later
             }
         }
     }

@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   catalog:
   - {fileID: 11400000, guid: 29f707c1d7e45dd46877fcc7f46758fc, type: 2}
+  - {fileID: 11400000, guid: b2d59791eb6ce4e47bef78cced4716e2, type: 2}
   active: []
   starsEarnedTotal: 0
 --- !u!4 &75815472
