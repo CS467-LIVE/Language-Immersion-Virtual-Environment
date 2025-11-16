@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionId: buy_hotdog
   displayName: Buy a Hot Dog
-  type: 0
-  targetId: HOT_DOG
-  targetCount: 1
+  objectives:
+  - objectiveId: find_hotdog_seller
+    type: 1
+    targetId: NPC_HOTDOG_SELLER
+    targetCount: 1
+    customEventName: 
+    uiHint: Find the hotdog cart with "!" and press E to talk.
+  - objectiveId: obtain_hotdog
+    type: 1
+    targetId: NPC_HOTDOG_SELLER
+    targetCount: 1
+    customEventName: 
+    uiHint: Ask for a hotdog in the respective language.
   starReward: 1
