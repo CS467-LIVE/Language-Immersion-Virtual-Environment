@@ -1,4 +1,5 @@
 using UnityEngine;
+using Systems.Events;
 
 public class NPCInteractable : MonoBehaviour
 {
@@ -7,35 +8,24 @@ public class NPCInteractable : MonoBehaviour
   public string npcName = "NPC";
   public string npcRole = "Citizen";
 
-  private MissionManager missionManager;
-
-  void Start()
-  {
-    missionManager = FindObjectOfType<MissionManager>();
-
-    // Error if MissionManager not found
-    if (missionManager == null)
-    {
-      Debug.LogError($"[NPC {npcName}] Could not find MissionManager in scene.");
-    }
-  }
+  [Header("Dialogue (optional)")]
+  [TextArea(2, 4)]
+  public string dialogueText = "Hello!";
 
   public void Interact()
   {
     Debug.Log($"[NPC] Player interacting with {npcName}");
 
-    // Check if this NPC is active for current mission
-    if (missionManager != null && missionManager.IsNPCActiveForMission(npcID))
+    // Raise event for mission system (Systems.Missions.MissionManager listens to this)
+    GameEvents.Raise(new GameEvent
     {
-      Debug.Log($"[NPC] {npcName} is active for mission!");
+      type = "TalkedTo",
+      subjectId = npcID,
+      amount = 1
+    });
 
-      // For now, automatically complete the step
-      // Need to do: Start dialogue system here
-      missionManager.CompleteCurrentStep();
-    }
-    else
-    {
-      Debug.Log($"[NPC] {npcName}: I have nothing for you right now.");
-    }
+    // In the future: Start dialogue system here
+    // For now, just show that interaction happened
+    Debug.Log($"[NPC] {npcName}: {dialogueText}");
   }
 }
