@@ -11,16 +11,24 @@ app.get('/:npc_name', async (req, res) => {
 
 
     const current_npc = npc_data[req.params.npc_name];
-
+    const system_prompt = current_npc.system_prompt;
+    // const mission_prompt = current_npc.mission_prompts[req.params.mission_name];
+    const mission_prompt = current_npc.mission_prompts["m_1_d_4"];
+    
+    
     const messages = [
         {
             "role": "system",
-            "content": current_npc.system_prompt
+            "content": system_prompt
+        },
+        {
+            "role": "developer",
+            "content": mission_prompt
         },
         {
 
             "role": "user",
-            "content": "Do you know my name?"
+            "content": "The distance between the sun and the earth is called an Astronomical Unit"
         }
     ]
 
@@ -33,12 +41,12 @@ app.get('/:npc_name', async (req, res) => {
     try {
         const response = await openai.responses.create({
         model: "gpt-5-nano",
-        // previous_response_id: "<response_id here>",
+        previous_response_id: "resp_0a273c472fd42cf100691bf98159f8819789dde44f5589558f",
         input: messages,
         store: true
         });
 
-    res.send(response.output_text);
+    res.send(response.output_text + "<br>" + response.id);
 
     
     } catch (error) {
