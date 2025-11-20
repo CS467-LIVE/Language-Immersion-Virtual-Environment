@@ -27,11 +27,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // Get input from keyboard
-        float horizontal = Input.GetAxis("Horizontal"); // A/D or Left/Right
-        float vertical = Input.GetAxis("Vertical");     // W/S or Up/Down
+        float vertical = Input.GetAxis("Vertical");     // W/S
 
         // Move in direction player is facing
-        Vector3 movement = transform.forward * vertical + transform.right * horizontal;
+        Vector3 movement = transform.forward * vertical;
 
         // CharacterController for collisions
         controller.Move(movement * moveSpeed * Time.deltaTime);
