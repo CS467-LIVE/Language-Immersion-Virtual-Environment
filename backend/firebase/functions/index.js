@@ -2,33 +2,44 @@ import { onRequest } from "firebase-functions/v2/https";
 import express from "express";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import npc_data from "./npc_data.js";
 
-
-dotenv.config();
+// dotenv.config();
 const app = express();
 
-app.get('/', async (req, res) => {
+app.get('/:npc_name', async (req, res) => {
+
+
+    const current_npc = npc_data[req.params.npc_name];
+
+    const messages = [
+        {
+            "role": "system",
+            "content": current_npc.system_prompt
+        },
+        {
+
+            "role": "user",
+            "content": "Do you know my name?"
+        }
+    ]
+
 
     const openai = new OpenAI({
-        baseURL: "https://openrouter.ai/api/v1",
-        apiKey: process.env.ORK
-        // defaultHeaders: {
-        //   "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
-        //   "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
-        // },
+        baseURL: "https://api.openai.com/v1",
+        apiKey: process.env.LIVE_OPENAIKEY
     });
 
     try {
-        const completion = await openai.chat.completions.create({
-        model: "nvidia/nemotron-nano-9b-v2:free",
-        messages: [
-            {
-            "role": "user",
-            "content": "What is the meaning of life?"
-            }
-        ],
+        const response = await openai.responses.create({
+        model: "gpt-5-nano",
+        // previous_response_id: "<response_id here>",
+        input: messages,
+        store: true
         });
-    res.send(completion.choices[0].message.content);
+
+    res.send(response.output_text);
+
     
     } catch (error) {
         console.error(error);
