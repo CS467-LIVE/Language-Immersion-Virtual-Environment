@@ -9,27 +9,28 @@ const npcData = {
         If you have your wallet was returned, you are very happy and relieved.
         Your response should be short and use simple vocabulary that's easy to understand. No more than 15 words per response.
         The response format should resemble dialogue in language learning books or exercises for beginners of that language.
-        Output only your dialogue. Do not include any other text that would not be said out loud.   
+        Output only your dialogue without any prefixes that denote who's talking (e.g. "You: ", "Player: ", "NPC: "). 
+        Do not include any other text that would not be said out loud.
         `,
         //these mission prompts are going to be used for the developer role in the response API 
         "missionPrompts":{
             //player approaches NPC and starts dialogue
             //NPC response should be something like: "Hi, can you help me? I lost something."
-            "m_1_d_1": "You seek help from the player, who has approached you. You ask for general help about losing 'something'.",
+            "m_1_d_1": "You seek help from the player, who has approached you. You ask for help about losing 'something'.",
             //game prompts the player to ask what they NPC lost
             "m_1_d_2": "The player has asked what you lost. Tell them that you lost a wallet.",
             //game prompts the player to ask what the color and shape is of the wallet
-            "m_1_d_3": `The player has asked what the color and shape is. You say that it is dark brown and square. 
+            "m_1_d_3": `The player has asked what the color and shape is of the wallet. You say that it is dark brown and square. 
                         You then ask the player if they will report it to the police for you.`,
             //game prompts the player to confirm they will help the NPC
-            "m_1_d_4": `If the player confirms that they will help you, you thank the player for their help. `,
+            "m_1_d_4": `The player has confirmed that they will help you, you thank the player for their help. `,
             //conversation should now be able to be exited, and if the player returns before reporting to the police...
             "m_1_d_5": `The player has just left to report your lost wallet to the police, per your request. 
                         If the player approaches you, you acknowledge anything they say,
                         but you always ask if there are any updates on your lost wallet.`,
                 
         },
-        "correctPlayerResponses":{
+        "correctResponses":{
             "m_1_d_1": "What did you lose?",
             "m_1_d_2": "What is the color and shape?",
             "m_1_d_3": "Yes, I will help you.",
@@ -58,7 +59,7 @@ const npcData = {
             //game prompts the player to confirm they will let the person know
             "m_1_d_8": `They have confirmed that they will let the person know, thank them for their help.`,
         },
-        "correctPlayerResponses":{
+        "correctResponses":{
             "m_1_d_5": "I want to report a lost item",
             "m_1_d_6": "It is a wallet",
             "m_1_d_7": "It is dark brown",
