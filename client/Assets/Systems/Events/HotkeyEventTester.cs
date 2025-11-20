@@ -1,25 +1,20 @@
 using UnityEngine;
 using Systems.Events;
-using UnityEngine.InputSystem; // NEW: Input System namespace
 
 public class HotkeyEventTester : MonoBehaviour
 {
     void Update()
     {
-        var kb = Keyboard.current;
-        if (kb == null) return; // no keyboard attached
+        if (Input.GetKeyDown(KeyCode.V))
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "NPC_CITIZEN_DISTRESSED", amount = 1 });
 
-        if (kb.hKey.wasPressedThisFrame)
-        {
-            GameEvents.Raise(new GameEvent { type = "BoughtItem", subjectId = "HOT_DOG", amount = 1 });
-        }
-        if (kb.tKey.wasPressedThisFrame)
-        {
-            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "NPC_VENDOR_1", amount = 1 });
-        }
-        if (kb.zKey.wasPressedThisFrame)
-        {
-            GameEvents.Raise(new GameEvent { type = "EnteredZone", subjectId = "ZONE_MARKET", amount = 1 });
-        }
+        if (Input.GetKeyDown(KeyCode.B))
+            GameEvents.Raise(new GameEvent { type = "Custom", subjectId = "LOST_ITEM_DETAILS", amount = 1 });
+
+        if (Input.GetKeyDown(KeyCode.N))
+            GameEvents.Raise(new GameEvent { type = "EnteredZone", subjectId = "ZONE_POLICE_STATION", amount = 1 });
+
+        if (Input.GetKeyDown(KeyCode.M))
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "NPC_POLICE_OFFICER", amount = 1 });
     }
 }
