@@ -98,14 +98,15 @@ InitTestScene*.unity*
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
-# Asset Packs (shared on Google Drive)
-Assets/PolygonCity/
-Assets/PolygonCity.meta
-Assets/Synty/
-Assets/Synty.meta
-Assets/POLYGONCityCharacters/
-Assets/POLYGONCityCharacters.meta
+# Asset Packs now committed to repo
+# Previously shared on Google Drive.
+# Assets/PolygonCity/
+# Assets/PolygonCity.meta
+# Assets/Synty/
+# Assets/Synty.meta
+# Assets/POLYGONCityCharacters/
+# Assets/POLYGONCityCharacters.meta
 
 .vs/
 .vscode/
-.idea/
+.idea/.DS_Store
