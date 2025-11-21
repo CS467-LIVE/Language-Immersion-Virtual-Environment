@@ -1,19 +1,33 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System;
 
 public class ChatboxUI : MonoBehaviour
 {
-    public System.Action OnChatClosed;
+    public event Action OnChatClosed;
 
-    // Chatbox is considered "open" when the GameObject is active
+    [Header("References")]
+    [SerializeField] private Button closeButton;
+
     public bool IsOpen => gameObject.activeSelf;
+
+    private void Start()
+    {
+        if (closeButton != null)
+            closeButton.onClick.AddListener(CloseChat);
+        else
+            Debug.LogWarning("ChatboxUI: Close Button not assigned!");
+    }
 
     public void OpenChat()
     {
+        Debug.Log("OpenChat called");
         gameObject.SetActive(true);
     }
 
     public void CloseChat()
     {
+        Debug.Log("CloseChat called");
         gameObject.SetActive(false);
         OnChatClosed?.Invoke();
     }
