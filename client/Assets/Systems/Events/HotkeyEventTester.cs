@@ -16,5 +16,17 @@ public class HotkeyEventTester : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.M))
             GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "NPC_POLICE_OFFICER", amount = 1 });
+
+        if (Input.GetKeyDown(KeyCode.H))
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "HOBO", amount = 1 });
+
+        if (Input.GetKeyDown(KeyCode.J))
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "PHONE_BOOTH_1", amount = 1 });
+
+        if (Input.GetKeyDown(KeyCode.K))
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "PHONE_BOOTH_1", amount = 1 });
+
+        if (Input.GetKeyDown(KeyCode.L))
+            GameEvents.Raise(new GameEvent { type = "TalkedTo", subjectId = "PHONE_BOOTH_1", amount = 1 });
     }
 }

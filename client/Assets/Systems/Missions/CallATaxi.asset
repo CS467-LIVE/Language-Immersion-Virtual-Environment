@@ -14,5 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionId: call_a_taxi
   displayName: Call a Taxi
-  objectives: []
+  objectives:
+  - objectiveId: talk_to_hobo
+    type: 1
+    targetId: HOBO
+    targetCount: 1
+    customEventName: 
+    uiHint: Find a homeless person.
+  - objectiveId: find_phone_booth
+    type: 1
+    targetId: PHONE_BOOTH_1
+    targetCount: 1
+    customEventName: 
+    uiHint: Find a phone booth.
+  - objectiveId: provide_pickup_location
+    type: 1
+    targetId: PHONE_BOOTH_1
+    targetCount: 1
+    customEventName: 
+    uiHint: Provide the correct pick up location of the homeless person.
+  - objectiveId: provide_dropoff_location
+    type: 1
+    targetId: PHONE_BOOTH_1
+    targetCount: 1
+    customEventName: 
+    uiHint: Provide the correct dropoff location.
   starReward: 1
