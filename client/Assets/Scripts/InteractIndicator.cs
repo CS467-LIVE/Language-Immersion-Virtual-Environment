@@ -5,7 +5,7 @@ public class InteractIndicator : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Canvas interactIndicator;
-    [SerializeField] private Transform player;              // Camera's parent (Player object)
+    [SerializeField] private Transform player;
     [SerializeField] private ChatboxUI chatbox;
     [SerializeField] private Transform conversationCamPoint;
 
@@ -15,13 +15,19 @@ public class InteractIndicator : MonoBehaviour
     [SerializeField] private float camMoveSpeed = 4f;
 
     private Transform cam;
+    private FirstPersonCamera cameraController;
+    private PlayerInteraction playerInteraction;
+
     private Vector3 originalLocalPos;
     private Quaternion originalLocalRot;
+
     private bool inConversation = false;
 
     void Start()
     {
         cam = Camera.main.transform;
+        cameraController = cam.GetComponent<FirstPersonCamera>();
+        playerInteraction = player.GetComponent<PlayerInteraction>();
 
         if (chatbox)
             chatbox.OnChatClosed += EndConversation;
@@ -30,6 +36,10 @@ public class InteractIndicator : MonoBehaviour
     void Update()
     {
         if (!interactIndicator || !player) return;
+
+        // Stop all player interactions during chat
+        if (inConversation)
+            return;
 
         // Hide indicator if chat is open
         if (chatbox && chatbox.IsOpen)
@@ -41,17 +51,17 @@ public class InteractIndicator : MonoBehaviour
         // Distance check
         float dist = Vector3.Distance(player.position, transform.position);
         bool inRange = dist <= showDistance;
-
         interactIndicator.enabled = inRange;
+
         if (!inRange) return;
 
-        // Face player (stable)
+        // Make indicator face player
         Vector3 targetPos = player.position;
         targetPos.y = interactIndicator.transform.position.y;
         interactIndicator.transform.LookAt(targetPos);
         interactIndicator.transform.Rotate(0f, 180f, 0f);
 
-        // Open chat
+        // Interact
         if (Input.GetKeyDown(interactKey) && chatbox)
         {
             chatbox.OpenChat();
@@ -62,14 +72,19 @@ public class InteractIndicator : MonoBehaviour
 
     private void BeginConversationCameraMove()
     {
-        // Save LOCAL transform before detaching
+        inConversation = true;
+
+        if (cameraController)
+            cameraController.enabled = false;
+
+        if (playerInteraction)
+            playerInteraction.enabled = false;
+
+        // Store camera's local info
         originalLocalPos = cam.localPosition;
         originalLocalRot = cam.localRotation;
 
-        // Detach so it can move freely
         cam.SetParent(null);
-
-        inConversation = true;
 
         StopAllCoroutines();
         StartCoroutine(MoveCameraTo(conversationCamPoint));
@@ -77,17 +92,25 @@ public class InteractIndicator : MonoBehaviour
 
     private IEnumerator MoveCameraTo(Transform target)
     {
-        while (inConversation)
+        while (Vector3.Distance(cam.position, target.position) > 0.01f)
         {
-            cam.position = Vector3.Lerp(cam.position, target.position, Time.deltaTime * camMoveSpeed);
-            cam.rotation = Quaternion.Lerp(cam.rotation, target.rotation, Time.deltaTime * camMoveSpeed);
+            cam.position = Vector3.Lerp(cam.position, target.position,
+                Time.deltaTime * camMoveSpeed);
+
+            cam.rotation = Quaternion.Lerp(cam.rotation, target.rotation,
+                Time.deltaTime * camMoveSpeed);
+
             yield return null;
         }
+
+        cam.position = target.position;
+        cam.rotation = target.rotation;
     }
 
     private void EndConversation()
     {
         inConversation = false;
+
         StopAllCoroutines();
         StartCoroutine(ReturnCamera());
     }
@@ -101,6 +124,7 @@ public class InteractIndicator : MonoBehaviour
         Quaternion targetWorldRot = player.rotation * originalLocalRot;
 
         float t = 0f;
+
         while (t < 1f)
         {
             t += Time.deltaTime * camMoveSpeed;
@@ -109,9 +133,15 @@ public class InteractIndicator : MonoBehaviour
             yield return null;
         }
 
-        // Reattach and restore local transform
+        // Restore camera as child
         cam.SetParent(player);
         cam.localPosition = originalLocalPos;
         cam.localRotation = originalLocalRot;
+
+        if (cameraController)
+            cameraController.enabled = true;
+
+        if (playerInteraction)
+            playerInteraction.enabled = true;
     }
 }
