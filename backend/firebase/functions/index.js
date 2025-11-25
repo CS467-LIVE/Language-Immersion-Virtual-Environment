@@ -16,13 +16,12 @@ const openai = new OpenAI({
 });
 
 
-const callDialogueLLM = async (npcName, missionName, userInput = "" ) => {
+const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
     
     const currentNPC = npcData[npcName];
-    const currentMission = currentNPC.missions[missionName];
     const systemPrompt = currentNPC.systemPrompt;
-    const missionPrompt = currentNPC.missionPrompts[currentMission];
-    
+    const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
+    const currentDialogue = currentNPC.missionPrompts[dialogueName];
     
     const messages = [
         {
@@ -31,7 +30,7 @@ const callDialogueLLM = async (npcName, missionName, userInput = "" ) => {
         },
         {
             "role": "developer",
-            "content": missionPrompt
+            "content": currentDialogue
         },
         {
             "role": "user",
@@ -41,6 +40,7 @@ const callDialogueLLM = async (npcName, missionName, userInput = "" ) => {
 
     const response = await openai.responses.create({
         model: "gpt-5-nano",
+        ...(prevRespID && { previous_response_id: prevRespID }),
         // previous_response_id: "resp_0a273c472fd42cf100691bf98159f8819789dde44f5589558f",
         input: messages,
         store: true
@@ -50,18 +50,17 @@ const callDialogueLLM = async (npcName, missionName, userInput = "" ) => {
             outputText: response.output_text, 
             responseID: response.id
     };
-    
-
 };
 
 
-
 app.get('/dialogue/:npcName', async (req, res) => {
-
-
+//needs to be changed to post and req.body
+    
     try {
+
+        const { npcName, dialogueIndex, userInput, prevRespID } = req.params;
         
-        const dialogueResponse = await callDialogueLLM(req.params.npcName, req.params.missionName, req.params.userInput);
+        const dialogueResponse = await callDialogueLLM(npcName, dialogueIndex, userInput, prevRespID);
         res.send(dialogueResponse);
 
     } catch (error) {
@@ -69,18 +68,16 @@ app.get('/dialogue/:npcName', async (req, res) => {
         console.error(error);
         res.status(500).send("Error calling LLM");
     
-    }
-
-    
+    }    
 });
 
 
 
+const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
 
-
-
-
-const semanticEval = async (prevRespID, refPhrase, userInput) => {
+    const currentNPC = npcData[npcName];
+    const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
+    const correctResponse = currentNPC.correctResponses[dialogueName];
 
     const messages = [
         {
@@ -98,7 +95,7 @@ const semanticEval = async (prevRespID, refPhrase, userInput) => {
             role: "user",
             content: `
 
-            Correct Reference Response: "${refPhrase}"
+            Correct Reference Response: "${correctResponse}"
             User Input: "${userInput}"
 
             Is the user input phrase free of spelling errors?
@@ -112,7 +109,7 @@ const semanticEval = async (prevRespID, refPhrase, userInput) => {
 
     const response = await openai.responses.create({
         model: "gpt-5-nano",
-        previous_response_id: prevRespID,
+        ...(prevRespID && { previous_response_id: prevRespID }),
         input: messages,
         store: true,
     });
@@ -144,8 +141,11 @@ const semanticEval = async (prevRespID, refPhrase, userInput) => {
 
 app.get('/evaluate', async (req, res) => {
     try {
-        const { prevRespID, refPhrase, userInput } = req.body;
-        const evalResponse = await semanticEval(prevRespID, refPhrase, userInput);
+
+        //needs to be changed to post and req.body
+        const { npcName, dialogueIndex, userInput, prevRespID } = req.params;
+        
+        const evalResponse = await semanticEval(npcName, dialogueIndex, userInput, prevRespID);
         res.send(evalResponse);
 
     } catch (error) {
