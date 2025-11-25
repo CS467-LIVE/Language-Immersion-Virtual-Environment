@@ -4,7 +4,7 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 import npcData from "./npcData.js";
 
-//for local emulation only
+
 dotenv.config();
 
 const app = express();
@@ -41,24 +41,21 @@ const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevR
     const response = await openai.responses.create({
         model: "gpt-5-nano",
         ...(prevRespID && { previous_response_id: prevRespID }),
-        // previous_response_id: "resp_0a273c472fd42cf100691bf98159f8819789dde44f5589558f",
         input: messages,
         store: true
     });
 
     return {
             outputText: response.output_text, 
-            responseID: response.id
+            responseID: response.id,
     };
 };
 
 
-app.get('/dialogue/:npcName', async (req, res) => {
-//needs to be changed to post and req.body
-    
+app.post('/dialogue', async (req, res) => {    
     try {
 
-        const { npcName, dialogueIndex, userInput, prevRespID } = req.params;
+        const { npcName, dialogueIndex, userInput, prevRespID } = req.body;
         
         const dialogueResponse = await callDialogueLLM(npcName, dialogueIndex, userInput, prevRespID);
         res.send(dialogueResponse);
@@ -139,11 +136,10 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
 
 };
 
-app.get('/evaluate', async (req, res) => {
+app.post('/evaluate', async (req, res) => {
     try {
 
-        //needs to be changed to post and req.body
-        const { npcName, dialogueIndex, userInput, prevRespID } = req.params;
+        const { npcName, dialogueIndex, userInput, prevRespID } = req.body;
         
         const evalResponse = await semanticEval(npcName, dialogueIndex, userInput, prevRespID);
         res.send(evalResponse);
