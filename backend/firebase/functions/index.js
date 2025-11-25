@@ -1,85 +1,74 @@
-import { onRequest } from "firebase-functions/v2/https";
+import {onRequest} from "firebase-functions/v2/https";
 import express from "express";
 import OpenAI from "openai";
-import dotenv from "dotenv";
 import npcData from "./npcData.js";
-
-
-dotenv.config();
 
 const app = express();
 app.use(express.json());
 
 const openai = new OpenAI({
-    baseURL: "https://api.openai.com/v1",
-    apiKey: process.env.LIVE_OPENAIKEY
+  baseURL: "https://api.openai.com/v1",
+  apiKey: process.env.LIVE_OPENAIKEY || "",
 });
 
 
 const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
-    
-    const currentNPC = npcData[npcName];
-    const systemPrompt = currentNPC.systemPrompt;
-    const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
-    const currentDialogue = currentNPC.missionPrompts[dialogueName];
-    
-    const messages = [
-        {
-            "role": "system",
-            "content": systemPrompt
-        },
-        {
-            "role": "developer",
-            "content": currentDialogue
-        },
-        {
-            "role": "user",
-            "content": userInput,
-        }
-    ]
+  const currentNPC = npcData[npcName];
+  const systemPrompt = currentNPC.systemPrompt;
+  const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
+  const currentDialogue = currentNPC.missionPrompts[dialogueName];
 
-    const response = await openai.responses.create({
-        model: "gpt-5-nano",
-        ...(prevRespID && { previous_response_id: prevRespID }),
-        input: messages,
-        store: true
-    });
+  const messages = [
+    {
+      "role": "system",
+      "content": systemPrompt,
+    },
+    {
+      "role": "developer",
+      "content": currentDialogue,
+    },
+    {
+      "role": "user",
+      "content": userInput,
+    },
+  ];
 
-    return {
-            outputText: response.output_text, 
-            responseID: response.id,
-    };
+  const response = await openai.responses.create({
+    model: "gpt-5-nano",
+    ...(prevRespID && {previous_response_id: prevRespID}),
+    input: messages,
+    store: true,
+  });
+
+  return {
+    outputText: response.output_text,
+    responseID: response.id,
+  };
 };
 
 
-app.post('/dialogue', async (req, res) => {    
-    try {
+app.post("/dialogue", async (req, res) => {
+  try {
+    const {npcName, dialogueIndex, userInput, prevRespID} = req.body;
 
-        const { npcName, dialogueIndex, userInput, prevRespID } = req.body;
-        
-        const dialogueResponse = await callDialogueLLM(npcName, dialogueIndex, userInput, prevRespID);
-        res.send(dialogueResponse);
-
-    } catch (error) {
-        
-        console.error(error);
-        res.status(500).send("Error calling LLM");
-    
-    }    
+    const dialogueResponse = await callDialogueLLM(npcName, dialogueIndex, userInput, prevRespID);
+    res.send(dialogueResponse);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error calling LLM");
+  }
 });
 
 
-
 const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
+  const currentNPC = npcData[npcName];
+  const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
+  const correctResponse = currentNPC.correctResponses[dialogueName];
 
-    const currentNPC = npcData[npcName];
-    const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
-    const correctResponse = currentNPC.correctResponses[dialogueName];
-
-    const messages = [
-        {
-            role: "system",
-            content: `
+  const messages = [
+    {
+      role: "system",
+      content: `
             You are a dialogue evaluator for player inputs that are in response to NPC outputs.
             You can see the recent conversation between the NPC and the player (user).
             Use that context plus the extra information in this message to judge the latest player reply.
@@ -87,10 +76,10 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
             You must be strict in regard to grammar and spelling errors.
             You will be given the conversaton history, a correct reference phrase (Correct Reference Response), and a response from the user (User Input). 
             `,
-        },
-        {
-            role: "user",
-            content: `
+    },
+    {
+      role: "user",
+      content: `
 
             Correct Reference Response: "${correctResponse}"
             User Input: "${userInput}"
@@ -101,53 +90,49 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
             Return a strict JSON object with: {"passed": "yes"|"no", "reason": "<short explanation>"}
             
             `,
-        },
-    ]
+    },
+  ];
 
-    const response = await openai.responses.create({
-        model: "gpt-5-nano",
-        ...(prevRespID && { previous_response_id: prevRespID }),
-        input: messages,
-        store: true,
-    });
+  const response = await openai.responses.create({
+    model: "gpt-5-nano",
+    ...(prevRespID && {previous_response_id: prevRespID}),
+    input: messages,
+    store: true,
+  });
 
-    const outputText = response.output_text.trim();
-    
-    try {
-        const parsedOutput = JSON.parse(outputText);
-        return parsedOutput;
-    } catch(error) {
-        console.log("JSON parse failed, extracting text...");
+  const outputText = response.output_text.trim();
 
-        const extractedText = outputText.toLowerCase().substring(0, 5);
+  try {
+    const parsedOutput = JSON.parse(outputText);
+    return parsedOutput;
+  } catch (error) {
+    console.log("JSON parse failed, extracting text...");
 
-        let passed = "no";
+    const extractedText = outputText.toLowerCase().substring(0, 5);
 
-        if (extractedText.includes("yes")) {
-            passed = "yes";
-        }
-    
-        return {
-            passed: passed,
-            reason: outputText
-        }
+    let passed = "no";
 
+    if (extractedText.includes("yes")) {
+      passed = "yes";
     }
 
+    return {
+      passed: passed,
+      reason: outputText,
+    };
+  }
 };
 
-app.post('/evaluate', async (req, res) => {
-    try {
+app.post("/evaluate", async (req, res) => {
+  try {
+    const {npcName, dialogueIndex, userInput, prevRespID} = req.body;
 
-        const { npcName, dialogueIndex, userInput, prevRespID } = req.body;
-        
-        const evalResponse = await semanticEval(npcName, dialogueIndex, userInput, prevRespID);
-        res.send(evalResponse);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error calling LLM");
-    }
+    const evalResponse = await semanticEval(npcName, dialogueIndex, userInput, prevRespID);
+    res.send(evalResponse);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error calling LLM");
+  }
 });
 
 export const callLLM = onRequest(app);
