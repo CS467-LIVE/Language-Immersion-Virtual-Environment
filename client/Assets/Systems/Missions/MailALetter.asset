@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionId: mail_a_letter
   displayName: Mail a Letter
-  type: 1
-  targetId: HOT_DOG
-  targetCount: 1
+  objectives:
+  - objectiveId: talk_to_old_lady
+    type: 1
+    targetId: OLD_LADY
+    targetCount: 1
+    customEventName: 
+    uiHint: Find an old lady with a letter in her hand.
+  - objectiveId: deposit_letter
+    type: 3
+    targetId: MAILBOX
+    targetCount: 1
+    customEventName: 
+    uiHint: Find a mailbox and press E to deposit the letter.
   starReward: 1
