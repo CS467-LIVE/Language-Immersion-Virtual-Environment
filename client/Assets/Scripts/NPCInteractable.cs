@@ -3,64 +3,73 @@ using Systems.Events;
 
 public class NPCInteractable : MonoBehaviour
 {
-  [Header("NPC Info")]
-  [Tooltip("Unique identifier for this NPC (e.g., NPC_VENDOR_HOTDOG)")]
-  public string npcID = "npc_default";
+    [Header("NPC Info")]
+    [Tooltip("Display name of the NPC")]
+    public string npcName = "NPC";
 
-  [Tooltip("Display name of the NPC")]
-  public string npcName = "NPC";
+    [Tooltip("NPC's role (e.g., Vendor, Police Officer, Citizen)")]
+    public string npcRole = "Citizen";
 
-  [Tooltip("NPC's role (e.g., Vendor, Police Officer, Citizen)")]
-  public string npcRole = "Citizen";
+    [Header("Conversation")]
+    [Tooltip("Placeholder dialogue text (will be replaced by backend AI)")]
+    [TextArea(2, 4)]
+    public string dialogueText = "Hello!";
 
-  [Header("Conversation")]
-  [Tooltip("Placeholder dialogue text (will be replaced by backend AI)")]
-  [TextArea(2, 4)]
-  public string dialogueText = "Hello!";
+    [Tooltip("Conversation logic for this NPC")]
+    public NpcConversation conversation;
 
-  [Header("Audio")]
-  [Tooltip("Sound to play when player interacts with NPC")]
-  public AudioClip interactionSound;
+    [Tooltip("Reference to the global dialogue UI")]
+    public NpcDialogueUI dialogueUI;
 
-  [Tooltip("Volume for interaction sound (0-1)")]
-  [Range(0f, 1f)]
-  public float interactionVolume = 0.7f;
+    [Header("Audio")]
+    [Tooltip("Sound to play when player interacts with NPC")]
+    public AudioClip interactionSound;
 
-  private AudioSource audioSource;
+    [Tooltip("Volume for interaction sound (0-1)")]
+    [Range(0f, 1f)]
+    public float interactionVolume = 0.7f;
 
-  void Start()
-  {
-    // Get or create AudioSource component
-    audioSource = GetComponent<AudioSource>();
-    if (audioSource == null)
+    private AudioSource audioSource;
+
+    void Start()
     {
-      audioSource = gameObject.AddComponent<AudioSource>();
-      audioSource.playOnAwake = false;
-      audioSource.spatialBlend = 1f; // 3D sound
-    }
-  }
-
-  /// Called when player presses E near this NPC
-  public void Interact()
-  {
-    Debug.Log($"[NPC] Player interacting with {npcName}");
-
-    // Play interaction sound
-    if (interactionSound != null && audioSource != null)
-    {
-      audioSource.PlayOneShot(interactionSound, interactionVolume);
+        // Get or create AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 1f; // 3D sound
+        }
     }
 
-    // Raise event for mission system
-    GameEvents.Raise(new GameEvent
+    /// Called when player presses E near this NPC
+    public void Interact()
     {
-      type = "TalkedTo",
-      subjectId = npcID,
-      amount = 1
-    });
+        Debug.Log($"[NPC] Player interacting with {npcName}");
 
-    // Start backend AI conversation here
-    // For now, just show that interaction happened
-    Debug.Log($"[NPC] {npcName}: {dialogueText}");
-  }
+        // Play interaction sound
+        if (interactionSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(interactionSound, interactionVolume);
+        }
+
+        // Raise event for mission system
+        GameEvents.Raise(new GameEvent
+        {
+            type = "TalkedTo",
+            subjectId = conversation.npcId,
+            amount = 1
+        });
+
+        if (dialogueUI != null && conversation != null)
+        {
+            // tell the UI which NPC is now active
+            dialogueUI.SetActiveNpc(conversation);
+        }
+        else
+        {
+            Debug.LogWarning($"[NPC] {name} missing dialogueUI or conversation reference");
+        }
+    }
 }

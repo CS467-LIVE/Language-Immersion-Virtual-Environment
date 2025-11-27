@@ -9,7 +9,7 @@ public class NpcApiTest : MonoBehaviour
     {
         var req = new DialogueRequest
         {
-            npcName = "walletNPC",
+            npcID = "walletNPC",
             dialogueIndex = 0,
             userInput = "",
             prevRespID = null
