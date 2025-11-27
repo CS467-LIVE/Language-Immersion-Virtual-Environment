@@ -1,4 +1,4 @@
-import {onRequest} from "firebase-functions/v2/https";
+import { onRequest } from "firebase-functions/v2/https";
 import express from "express";
 import OpenAI from "openai";
 import npcData from "./npcData.js";
@@ -12,8 +12,14 @@ const openai = new OpenAI({
 });
 
 
-const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
-  const currentNPC = npcData[npcName];
+const callDialogueLLM = async (npcID, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
+  const currentNPC = npcData[npcID];
+
+  if (!currentNPC) return {
+    outputText: "INVALID_NPC",
+    responseID: undefined,
+  };
+
   const systemPrompt = currentNPC.systemPrompt;
   const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
   const currentDialogue = currentNPC.missionPrompts[dialogueName];
@@ -35,7 +41,7 @@ const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevR
 
   const response = await openai.responses.create({
     model: "gpt-5-nano",
-    ...(prevRespID && {previous_response_id: prevRespID}),
+    ...(prevRespID && { previous_response_id: prevRespID }),
     input: messages,
     store: true,
   });
@@ -49,9 +55,15 @@ const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevR
 
 app.post("/dialogue", async (req, res) => {
   try {
-    const {npcName, dialogueIndex, userInput, prevRespID} = req.body;
+    const { npcID, dialogueIndex, userInput, prevRespID } = req.body;
 
-    const dialogueResponse = await callDialogueLLM(npcName, dialogueIndex, userInput, prevRespID);
+    const dialogueResponse = await callDialogueLLM(npcID, dialogueIndex, userInput, prevRespID);
+
+    if (dialogueResponse.responseID === undefined) {
+      res.status(400).send("Invalid NPC ID");
+      return;
+    }
+
     res.send(dialogueResponse);
   } catch (error) {
     console.error(error);
@@ -60,8 +72,14 @@ app.post("/dialogue", async (req, res) => {
 });
 
 
-const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
-  const currentNPC = npcData[npcName];
+const semanticEval = async (npcID, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
+  const currentNPC = npcData[npcID];
+
+  if (!currentNPC) return {
+    passed: "no",
+    reason: "INVALID_NPC",
+  };
+
   const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
   const correctResponse = currentNPC.correctResponses[dialogueName];
 
@@ -95,7 +113,7 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
 
   const response = await openai.responses.create({
     model: "gpt-5-nano",
-    ...(prevRespID && {previous_response_id: prevRespID}),
+    ...(prevRespID && { previous_response_id: prevRespID }),
     input: messages,
     store: true,
   });
@@ -125,9 +143,15 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
 
 app.post("/evaluate", async (req, res) => {
   try {
-    const {npcName, dialogueIndex, userInput, prevRespID} = req.body;
+    const { npcID, dialogueIndex, userInput, prevRespID } = req.body;
 
-    const evalResponse = await semanticEval(npcName, dialogueIndex, userInput, prevRespID);
+    const evalResponse = await semanticEval(npcID, dialogueIndex, userInput, prevRespID);
+
+    if (evalResponse.reason === "INVALID_NPC") {
+      res.status(400).send("Invalid NPC ID");
+      return;
+    }
+
     res.send(evalResponse);
   } catch (error) {
     console.error(error);
