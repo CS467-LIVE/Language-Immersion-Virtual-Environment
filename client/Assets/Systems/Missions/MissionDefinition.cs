@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Systems.Missions
 {
-    public enum ObjectiveType { BuyItem, TalkToNPC, EnterZone, CustomEvent }
+    public enum ObjectiveType { AiValidated, TalkToNPC, EnterZone, CustomEvent }
 
     [CreateAssetMenu(fileName = "Mission", menuName = "Game/Mission")]
     public class MissionDefinition : ScriptableObject
