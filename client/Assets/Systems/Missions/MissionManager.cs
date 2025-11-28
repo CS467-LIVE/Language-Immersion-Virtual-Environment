@@ -80,7 +80,7 @@ namespace Systems.Missions
         {
             switch (o.type)
             {
-                case ObjectiveType.BuyItem: return e.type == "BoughtItem" && e.subjectId == o.targetId;
+                case ObjectiveType.AiValidated: return e.type == "AiValidated" && e.subjectId == o.targetId;
                 case ObjectiveType.TalkToNPC: return e.type == "TalkedTo" && e.subjectId == o.targetId;
                 case ObjectiveType.EnterZone: return e.type == "EnteredZone" && e.subjectId == o.targetId;
                 case ObjectiveType.CustomEvent: return e.type == "Custom" && e.subjectId == o.targetId; // use targetId as event key
