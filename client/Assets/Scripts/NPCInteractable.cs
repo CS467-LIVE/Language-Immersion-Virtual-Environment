@@ -10,6 +10,10 @@ public class NPCInteractable : MonoBehaviour
     [Tooltip("NPC's role (e.g., Vendor, Police Officer, Citizen)")]
     public string npcRole = "Citizen";
 
+    [Header("Mission")]
+    [Tooltip("ID used by missions (e.g., NPC_SARAH, MAILBOX_1). If empty, falls back to conversation.npcId or GameObject name.")]
+    public string subjectIdOverride;
+
     [Header("Conversation")]
     [Tooltip("Placeholder dialogue text (will be replaced by backend AI)")]
     [TextArea(2, 4)]
@@ -54,11 +58,18 @@ public class NPCInteractable : MonoBehaviour
             audioSource.PlayOneShot(interactionSound, interactionVolume);
         }
 
+        string subjectId =
+            !string.IsNullOrWhiteSpace(subjectIdOverride)
+                ? subjectIdOverride
+                : (conversation != null && !string.IsNullOrWhiteSpace(conversation.npcId)
+                    ? conversation.npcId
+                    : name); // fallback to GameObject name
+
         // Raise event for mission system
         GameEvents.Raise(new GameEvent
         {
-            type = "TalkedTo",
-            subjectId = conversation.npcId,
+            type = "Interacted",
+            subjectId = subjectId,
             amount = 1
         });
 

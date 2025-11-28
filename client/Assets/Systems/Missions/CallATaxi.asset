@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea19e42294bfba428165ce07175b841, type: 3}
+  m_Name: CallATaxi
+  m_EditorClassIdentifier: 
+  missionId: call_a_taxi
+  displayName: Call a Taxi
+  objectives:
+  - objectiveId: talk_to_hobo
+    type: 1
+    targetId: HOBO
+    targetCount: 1
+    customEventName: 
+    uiHint: Find a homeless person.
+  - objectiveId: hobo_pickup
+    type: 0
+    targetId: HOBO
+    targetCount: 1
+    customEventName: 
+    uiHint: Ask the hobo where he would liked to be picked up.
+  - objectiveId: hobo_dropoff
+    type: 0
+    targetId: HOBO
+    targetCount: 1
+    customEventName: 
+    uiHint: Ask the homeless person where he would like to go.
+  - objectiveId: find_phone_booth
+    type: 1
+    targetId: PHONE_BOOTH_1
+    targetCount: 1
+    customEventName: 
+    uiHint: Find a phone booth and press E.
+  - objectiveId: provide_pickup_location
+    type: 0
+    targetId: PHONE_BOOTH_1
+    targetCount: 1
+    customEventName: 
+    uiHint: Provide the correct pick up location of the homeless person.
+  - objectiveId: provide_dropoff_location
+    type: 0
+    targetId: PHONE_BOOTH_1
+    targetCount: 1
+    customEventName: 
+    uiHint: Provide the correct dropoff location.
+  starReward: 1

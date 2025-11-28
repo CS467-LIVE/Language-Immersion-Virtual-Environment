@@ -10,15 +10,14 @@ namespace Systems.Missions
         [Header("Catalog (drag mission assets here)")]
         public List<MissionDefinition> catalog = new();
 
-        [Header("Runtime (debug)")]
+        [Header("Runtime")]
         [SerializeField] private List<MissionRuntime> active = new();
         [SerializeField] private int starsEarnedTotal = 0;
 
         void OnEnable()
         {
             GameEvents.OnEvent += HandleEvent;
-            // For now: activate everything so you can test quickly
-            ActivateAll();
+            ActivateFirst();
         }
 
         void OnDisable() => GameEvents.OnEvent -= HandleEvent;
@@ -37,9 +36,55 @@ namespace Systems.Missions
             }
         }
 
+        void ActivateFirst()
+        {
+            if (catalog == null || catalog.Count == 0) return;
+            ActivateMissionByDef(catalog[0]);
+        }
+
+        // Activate a specific mission by definition (clears any previously active)
+        public void ActivateMissionByDef(MissionDefinition def)
+        {
+            if (def == null) return;
+            active.Clear();
+            var mr = CreateRuntimeFromDef(def);
+            active.Add(mr);
+            Debug.Log($"[Missions] Activated (single): {def.displayName} ({def.objectives.Count} steps)");
+        }
+
+        // Activate the next mission in the catalog after the provided definition (or after the currently active)
+        void ActivateNextAfter(MissionDefinition finishedDef)
+        {
+            if (catalog == null || catalog.Count == 0) return;
+            var idx = catalog.IndexOf(finishedDef);
+            var nextIdx = idx + 1;
+            if (nextIdx >= 0 && nextIdx < catalog.Count)
+            {
+                ActivateMissionByDef(catalog[nextIdx]);
+            }
+            else
+            {
+                // No more missions: clear active
+                active.Clear();
+                Debug.Log("[Missions] All catalog missions completed or no next mission.");
+            }
+        }
+
+        MissionRuntime CreateRuntimeFromDef(MissionDefinition def)
+        {
+            var mr = new MissionRuntime { missionId = def.missionId };
+            foreach (var o in def.objectives)
+                mr.objectives.Add(new ObjectiveState { objectiveId = o.objectiveId, required = Mathf.Max(1, o.targetCount) });
+            return mr;
+        }
+
         void HandleEvent(GameEvent e)
         {
-            foreach (var mr in active.Where(m => !m.completed))
+            // snapshot so we don't modify collection while iterating
+            var currentMissions = active.Where(m => !m.completed).ToList();
+
+            // Only process the currently active mission(s) (we keep at most one in normal flow)
+            foreach (var mr in currentMissions)
             {
                 var def = catalog.FirstOrDefault(d => d.missionId == mr.missionId);
                 if (def == null) continue;
@@ -65,6 +110,9 @@ namespace Systems.Missions
                             mr.completed = true;
                             starsEarnedTotal += Mathf.Max(0, def.starReward);
                             Debug.Log($"[Missions] COMPLETED: {def.displayName} (+{def.starReward}⭐)  Total Stars: {starsEarnedTotal}");
+
+                            // Automatically activate the next mission in the catalog (if any)
+                            ActivateNextAfter(def);
                         }
                         else
                         {
@@ -81,7 +129,7 @@ namespace Systems.Missions
             switch (o.type)
             {
                 case ObjectiveType.AiValidated: return e.type == "AiValidated" && e.subjectId == o.targetId;
-                case ObjectiveType.TalkToNPC: return e.type == "TalkedTo" && e.subjectId == o.targetId;
+                case ObjectiveType.Interacted: return e.type == "Interacted" && e.subjectId == o.targetId;
                 case ObjectiveType.EnterZone: return e.type == "EnteredZone" && e.subjectId == o.targetId;
                 case ObjectiveType.CustomEvent: return e.type == "Custom" && e.subjectId == o.targetId; // use targetId as event key
                 default: return false;
