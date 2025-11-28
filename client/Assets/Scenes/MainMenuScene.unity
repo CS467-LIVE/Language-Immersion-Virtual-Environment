@@ -838,6 +838,7 @@ GameObject:
   - component: {fileID: 576756968}
   - component: {fileID: 576756967}
   - component: {fileID: 576756966}
+  - component: {fileID: 576756969}
   m_Layer: 5
   m_Name: LanguageDropdown
   m_TagString: Untagged
@@ -979,6 +980,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576756964}
   m_CullTransparentMesh: 1
+--- !u!114 &576756969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576756964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7e73f89116f4fbc9bfbe22c31ad646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropdown: {fileID: 576756966}
 --- !u!1 &606934936
 GameObject:
   m_ObjectHideFlags: 0
