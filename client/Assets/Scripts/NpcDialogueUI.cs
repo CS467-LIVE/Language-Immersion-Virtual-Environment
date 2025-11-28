@@ -6,32 +6,58 @@ public class NpcDialogueUI : MonoBehaviour
     public TMP_InputField inputField;
     public TMP_Text dialogueHistory;
 
-    public NpcConversation activeNpc;
+    [SerializeField]
+    private NpcConversation currentNpc;
+
+    public void SetActiveNpc(NpcConversation npc)
+    {
+        // unsubscribe from old
+        if (currentNpc != null)
+        {
+            currentNpc.OnNpcLine -= HandleNpcLine;
+            currentNpc.OnSystemMessage -= HandleSystemMessage;
+            currentNpc.OnEvaluationResult -= HandleEval;
+        }
+
+        currentNpc = npc;
+
+        if (currentNpc != null)
+        {
+            currentNpc.OnNpcLine += HandleNpcLine;
+            currentNpc.OnSystemMessage += HandleSystemMessage;
+            currentNpc.OnEvaluationResult += HandleEval;
+
+            currentNpc.StartConversation();
+        }
+    }
 
     public void OnSendButtonClicked()
     {
-        if (activeNpc == null)
-        {
-            AppendSystemMessage("[No NPC selected]");
-            return;
-        }
-
+        if (currentNpc == null) return;
         string text = inputField.text;
         if (string.IsNullOrWhiteSpace(text)) return;
 
-        AppendLine("You: " + text);
-        activeNpc.PlayerSaid(text);
+        AppendLine($"You: {text}");
+        currentNpc.HandlePlayerInput(text);
         inputField.text = "";
     }
 
-    public void AppendNpcLine(string npcName, string line)
+    private void HandleNpcLine(NpcConversation npc, string line)
     {
-        AppendLine(npcName + ": " + line);
+        AppendLine($"{npc.npcId}: {line}");
     }
 
-    public void AppendSystemMessage(string msg)
+    private void HandleSystemMessage(NpcConversation npc, string msg)
     {
-        AppendLine(msg);
+        AppendLine($"[System] {msg}");
+    }
+
+    private void HandleEval(NpcConversation npc, bool passed, string reason)
+    {
+        if (!passed)
+        {
+            AppendLine($"[Hint] {reason}");
+        }
     }
 
     private void AppendLine(string line)
