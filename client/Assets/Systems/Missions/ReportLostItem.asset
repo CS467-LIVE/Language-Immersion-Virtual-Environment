@@ -22,8 +22,8 @@ MonoBehaviour:
     customEventName: 
     uiHint: Find the citizen with "!" and press E to talk.
   - objectiveId: get_details
-    type: 3
-    targetId: LOST_ITEM_DETAILS
+    type: 0
+    targetId: NPC_CITIZEN_DISTRESSED
     targetCount: 1
     customEventName: 
     uiHint: Ask what was lost. Confirm details.
@@ -34,7 +34,7 @@ MonoBehaviour:
     customEventName: 
     uiHint: Go to the Police Station.
   - objectiveId: report_to_officer
-    type: 1
+    type: 0
     targetId: NPC_POLICE_OFFICER
     targetCount: 1
     customEventName: 

@@ -21,20 +21,32 @@ MonoBehaviour:
     targetCount: 1
     customEventName: 
     uiHint: Find a homeless person.
+  - objectiveId: hobo_pickup
+    type: 0
+    targetId: HOBO
+    targetCount: 1
+    customEventName: 
+    uiHint: Ask the hobo where he would liked to be picked up.
+  - objectiveId: hobo_dropoff
+    type: 0
+    targetId: HOBO
+    targetCount: 1
+    customEventName: 
+    uiHint: Ask the homeless person where he would like to go.
   - objectiveId: find_phone_booth
     type: 1
     targetId: PHONE_BOOTH_1
     targetCount: 1
     customEventName: 
-    uiHint: Find a phone booth.
+    uiHint: Find a phone booth and press E.
   - objectiveId: provide_pickup_location
-    type: 1
+    type: 0
     targetId: PHONE_BOOTH_1
     targetCount: 1
     customEventName: 
     uiHint: Provide the correct pick up location of the homeless person.
   - objectiveId: provide_dropoff_location
-    type: 1
+    type: 0
     targetId: PHONE_BOOTH_1
     targetCount: 1
     customEventName: 

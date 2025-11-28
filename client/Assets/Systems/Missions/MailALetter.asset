@@ -21,10 +21,17 @@ MonoBehaviour:
     targetCount: 1
     customEventName: 
     uiHint: Find an old lady with a letter in her hand.
+  - objectiveId: politely_accept_old_lady
+    type: 0
+    targetId: OLD_LADY
+    targetCount: 1
+    customEventName: 
+    uiHint: The old lady has been through a lot. Be super nice to her and accept
+      the mission while also mentioning that you think she looks super young.
   - objectiveId: deposit_letter
     type: 3
     targetId: MAILBOX
     targetCount: 1
-    customEventName: 
+    customEventName: Deposit
     uiHint: Find a mailbox and press E to deposit the letter.
   starReward: 1

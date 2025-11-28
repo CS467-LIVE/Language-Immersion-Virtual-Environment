@@ -22,7 +22,7 @@ MonoBehaviour:
     customEventName: 
     uiHint: Find the hotdog cart with "!" and press E to talk.
   - objectiveId: obtain_hotdog
-    type: 1
+    type: 0
     targetId: NPC_HOTDOG_SELLER
     targetCount: 1
     customEventName: 
