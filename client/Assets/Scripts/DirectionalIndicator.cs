@@ -15,6 +15,7 @@ public class DirectionalIndicator : MonoBehaviour
     private Camera cam;
     private Transform lastTarget;
     private bool initialized = false;
+    private SpriteRenderer sprite;   // controls visibility instead of SetActive
 
     void Start()
     {
@@ -22,6 +23,14 @@ public class DirectionalIndicator : MonoBehaviour
         if (cam == null)
         {
             Debug.LogError("[DirectionalIndicator] No Camera with 'MainCamera' tag found.");
+            enabled = false;
+            return;
+        }
+
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        if (sprite == null)
+        {
+            Debug.LogError("[DirectionalIndicator] No SpriteRenderer found on indicator.");
             enabled = false;
             return;
         }
@@ -41,7 +50,7 @@ public class DirectionalIndicator : MonoBehaviour
         if (!initialized)
             return;
 
-        // Debug when target changes
+        // Debug only when target changes
         if (target != lastTarget)
         {
             if (target)
@@ -52,31 +61,28 @@ public class DirectionalIndicator : MonoBehaviour
             lastTarget = target;
         }
 
-        // No target → hide
+        // No target -> just hide sprite but keep script alive
         if (target == null)
         {
-            if (gameObject.activeSelf)
-                gameObject.SetActive(false);
+            sprite.enabled = false;
             return;
         }
 
-        // Hide when close to the target
+        // ---- Distance-based hiding (only affects sprite, not GameObject) ----
         float dist = Vector3.Distance(cam.transform.position, target.position);
         if (dist <= hideDistance)
         {
-            if (gameObject.activeSelf)
-                gameObject.SetActive(false);
-            return;
+            sprite.enabled = false;
+        }
+        else
+        {
+            sprite.enabled = true;
         }
 
-        // Ensure visible when valid target & not too close
-        if (!gameObject.activeSelf)
-            gameObject.SetActive(true);
-
-        // --- Keep arrow locked in front of camera ---
+        // ---- Positioning ----
         transform.localPosition = new Vector3(0f, -verticalOffset, distanceInFront);
 
-        // --- Compute horizontal direction to target ---
+        // ---- Rotation toward target (horizontal only) ----
         Vector3 camForward = cam.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
@@ -89,7 +95,6 @@ public class DirectionalIndicator : MonoBehaviour
 
         toTarget.Normalize();
 
-        // Signed angle between camera forward and target direction
         float signedAngle = Vector3.SignedAngle(camForward, toTarget, Vector3.up);
 
         // Arrow sprite points UP, so rotate around local Z
@@ -99,5 +104,19 @@ public class DirectionalIndicator : MonoBehaviour
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
+
+        // If a new target is set and we're not right on top of it, force show sprite
+        if (target != null)
+        {
+            float dist = Vector3.Distance(cam.transform.position, target.position);
+            if (dist > hideDistance && sprite != null)
+                sprite.enabled = true;
+        }
+        else if (sprite != null)
+        {
+            sprite.enabled = false;
+        }
+
+        lastTarget = newTarget;
     }
 }
