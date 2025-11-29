@@ -7,6 +7,7 @@ namespace Systems.Missions
     public class MissionRuntime
     {
         public string missionId;
+        public MissionDefinition definitionRef;   // ← ADD THIS
         public List<ObjectiveState> objectives = new();
         public int currentIndex = 0;
         public bool completed;
