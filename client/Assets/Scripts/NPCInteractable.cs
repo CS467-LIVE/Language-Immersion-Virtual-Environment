@@ -14,6 +14,9 @@ public class NPCInteractable : MonoBehaviour
     [Tooltip("ID used by missions (e.g., NPC_SARAH, MAILBOX_1). If empty, falls back to conversation.npcId or GameObject name.")]
     public string subjectIdOverride;
 
+    [Tooltip("For objects without conversation: raise a custom event instead of opening dialogue (e.g., 'Deposit' for mailbox)")]
+    public string customEventName;
+
     [Header("Conversation")]
     [Tooltip("Placeholder dialogue text (will be replaced by backend AI)")]
     [TextArea(2, 4)]
@@ -73,6 +76,19 @@ public class NPCInteractable : MonoBehaviour
             amount = 1
         });
 
+        // If this is a non-conversational object with a custom event, raise it
+        if (!string.IsNullOrWhiteSpace(customEventName) && conversation == null)
+        {
+            GameEvents.Raise(new GameEvent
+            {
+                type = "Custom",
+                subjectId = subjectId,
+                amount = 1
+            });
+            Debug.Log($"[NPC] Raised custom event for {subjectId}");
+            return; // Don't open dialogue for custom event objects
+        }
+
         // Trigger camera movement if InteractIndicator is present
         InteractIndicator indicator = GetComponent<InteractIndicator>();
         if (indicator != null)
@@ -85,9 +101,9 @@ public class NPCInteractable : MonoBehaviour
             // tell the UI which NPC is now active
             dialogueUI.SetActiveNpc(conversation);
         }
-        else
+        else if (conversation != null)
         {
-            Debug.LogWarning($"[NPC] {name} missing dialogueUI or conversation reference");
+            Debug.LogWarning($"[NPC] {name} missing dialogueUI reference");
         }
     }
 }

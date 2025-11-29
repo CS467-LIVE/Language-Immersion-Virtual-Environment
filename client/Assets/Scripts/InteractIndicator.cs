@@ -39,7 +39,6 @@ public class InteractIndicator : MonoBehaviour
             originalLocalPos = cam.localPosition;
             originalLocalRot = cam.localRotation;
             originalPosStored = true;
-            Debug.Log($"[InteractIndicator] Stored original camera position: {originalLocalPos}, rotation: {originalLocalRot.eulerAngles}");
         }
     }
 
@@ -92,7 +91,6 @@ public class InteractIndicator : MonoBehaviour
             originalLocalPos = cam.localPosition;
             originalLocalRot = cam.localRotation;
             originalPosStored = true;
-            Debug.Log($"[InteractIndicator] Storing camera position during interaction: {originalLocalPos}");
         }
 
         cam.SetParent(null);
@@ -137,14 +135,10 @@ public class InteractIndicator : MonoBehaviour
 
     private IEnumerator ReturnCamera()
     {
-        Debug.Log($"[InteractIndicator] Returning camera. Original pos: {originalLocalPos}, rot: {originalLocalRot.eulerAngles}");
-
         // Immediately re-parent camera to player and snap to original position
         cam.SetParent(player);
         cam.localPosition = originalLocalPos;
         cam.localRotation = originalLocalRot;
-
-        Debug.Log($"[InteractIndicator] Camera snapped back to: {cam.localPosition}");
 
         // Re-enable controls
         if (cameraController)

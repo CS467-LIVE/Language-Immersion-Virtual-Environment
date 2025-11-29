@@ -31,6 +31,12 @@ public class NpcDialogueUI : MonoBehaviour
             currentNpc.OnSystemMessage += HandleSystemMessage;
             currentNpc.OnEvaluationResult += HandleEval;
 
+            // Clear previous dialogue
+            if (dialogueHistory != null)
+            {
+                dialogueHistory.text = "";
+            }
+
             // Open the visual chatbox
             if (chatboxUI != null)
             {
@@ -72,6 +78,11 @@ public class NpcDialogueUI : MonoBehaviour
 
     private void AppendLine(string line)
     {
+        if (dialogueHistory == null)
+        {
+            Debug.LogError("[NpcDialogueUI] dialogueHistory is NULL! Assign TMP_Text in Inspector.");
+            return;
+        }
         dialogueHistory.text += line + "\n";
     }
 }

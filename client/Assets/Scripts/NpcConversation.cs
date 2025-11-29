@@ -24,13 +24,20 @@ public class NpcConversation : MonoBehaviour
     // called when player first interacts with NPC
     public void StartConversation()
     {
+        if (apiClient == null)
+        {
+            Debug.LogError($"[NpcConversation] {npcId}: apiClient is NULL! Assign NpcApiClient in Inspector.");
+            return;
+        }
+
         // first NPC line, no user input yet
         var req = new DialogueRequest
         {
             npcID = npcId,
             dialogueIndex = dialogueIndex,
             userInput = "",
-            prevRespID = null
+            prevRespID = null,
+            language = PlayerPrefs.GetString("SelectedLanguage", "en")
         };
 
         StartCoroutine(apiClient.CallDialogue(
@@ -49,7 +56,8 @@ public class NpcConversation : MonoBehaviour
             npcID = npcId,
             dialogueIndex = dialogueIndex,
             userInput = playerText,
-            prevRespID = prevRespID
+            prevRespID = prevRespID,
+            language = PlayerPrefs.GetString("SelectedLanguage", "en")
         };
 
         StartCoroutine(apiClient.CallEvaluation(
@@ -102,7 +110,8 @@ public class NpcConversation : MonoBehaviour
             npcID = npcId,
             dialogueIndex = dialogueIndex,
             userInput = playerText,
-            prevRespID = prevRespID
+            prevRespID = prevRespID,
+            language = PlayerPrefs.GetString("SelectedLanguage", "en")
         };
 
         StartCoroutine(apiClient.CallDialogue(

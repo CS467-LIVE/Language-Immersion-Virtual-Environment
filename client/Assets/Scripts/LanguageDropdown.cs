@@ -14,7 +14,10 @@ public class LanguageDropdown : MonoBehaviour
         { "ar", "Arabic" },
         { "fr", "French" },
         { "zh", "Chinese" },
-        { "he", "Hebrew" }
+        { "he", "Hebrew" },
+        { "de", "German" },
+        { "ja", "Japanese" },
+        { "ko", "Korean" }
     };
 
     private List<string> codes;   // keeps codes in dropdown order
@@ -36,6 +39,8 @@ public class LanguageDropdown : MonoBehaviour
     private void OnLanguageSelected(int index)
     {
         string code = codes[index];
+        PlayerPrefs.SetString("SelectedLanguage", code);
+        PlayerPrefs.Save();
         Debug.Log("Selected language code: " + code);
     }
 }
