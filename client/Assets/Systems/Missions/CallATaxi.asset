@@ -35,19 +35,19 @@ MonoBehaviour:
     uiHint: Ask the homeless person where he would like to go.
   - objectiveId: find_phone_booth
     type: 1
-    targetId: PHONE_BOOTH_1
+    targetId: ANY_PHONE_BOOTH
     targetCount: 1
     customEventName: 
     uiHint: Find a phone booth and press E.
   - objectiveId: provide_pickup_location
     type: 0
-    targetId: PHONE_BOOTH_1
+    targetId: ANY_PHONE_BOOTH
     targetCount: 1
     customEventName: 
     uiHint: Provide the correct pick up location of the homeless person.
   - objectiveId: provide_dropoff_location
     type: 0
-    targetId: PHONE_BOOTH_1
+    targetId: ANY_PHONE_BOOTH
     targetCount: 1
     customEventName: 
     uiHint: Provide the correct dropoff location.
