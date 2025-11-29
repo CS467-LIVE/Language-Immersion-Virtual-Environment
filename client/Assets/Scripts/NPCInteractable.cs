@@ -73,6 +73,13 @@ public class NPCInteractable : MonoBehaviour
             amount = 1
         });
 
+        // Trigger camera movement if InteractIndicator is present
+        InteractIndicator indicator = GetComponent<InteractIndicator>();
+        if (indicator != null)
+        {
+            indicator.BeginConversationCameraMove();
+        }
+
         if (dialogueUI != null && conversation != null)
         {
             // tell the UI which NPC is now active

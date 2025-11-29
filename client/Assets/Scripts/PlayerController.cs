@@ -28,9 +28,10 @@ public class PlayerController : MonoBehaviour
 
         // Get input from keyboard
         float vertical = Input.GetAxis("Vertical");     // W/S
+        float horizontal = Input.GetAxis("Horizontal"); // A/D
 
-        // Move in direction player is facing
-        Vector3 movement = transform.forward * vertical;
+        // Move in direction player is facing (forward/back) and strafe (left/right)
+        Vector3 movement = transform.forward * vertical + transform.right * horizontal;
 
         // CharacterController for collisions
         controller.Move(movement * moveSpeed * Time.deltaTime);

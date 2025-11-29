@@ -6,6 +6,10 @@ public class NpcDialogueUI : MonoBehaviour
     public TMP_InputField inputField;
     public TMP_Text dialogueHistory;
 
+    [Header("Visual UI")]
+    [Tooltip("Reference to Jackie's ChatboxUI for visual display")]
+    public ChatboxUI chatboxUI;
+
     [SerializeField]
     private NpcConversation currentNpc;
 
@@ -26,6 +30,12 @@ public class NpcDialogueUI : MonoBehaviour
             currentNpc.OnNpcLine += HandleNpcLine;
             currentNpc.OnSystemMessage += HandleSystemMessage;
             currentNpc.OnEvaluationResult += HandleEval;
+
+            // Open the visual chatbox
+            if (chatboxUI != null)
+            {
+                chatboxUI.OpenChat();
+            }
 
             currentNpc.StartConversation();
         }
