@@ -106,41 +106,41 @@ const npcData = {
       Do not include any other text that would not be said out loud.   
       `,
     "missionPrompts": {
-      "taxiDialogue0": "You seek help from the player, who has approached you. You say you are stranded and ask for help.", 
-      "taxiDialogue1": "The player has asked where you need to go. You say you need to go to the airport. You ask them if they will call a taxi for you.",
-      "taxiDialogue2": "The player has confirmed that they will call a taxi for you. You thank them for their help and wish them a safe journey.",
-      "taxiDialogue3": "The player has paid for your ride and you thank them for their help and wish them a safe journey.",
+      "taxiDialogue0": "You seek help from the player, who has approached you. You say you are stranded and ask for help.",
+      "taxiDialogue1": "The player has asked where you need to go. You say you need to go to the airport.",
+      "taxiDialogue2": "The player has acknowledged that you need to go to the airport. You ask them if they will call a taxi for you.",
+      "taxiDialogue3": "The player has called a taxi for you, and you thank them for their help.",
     },
     "dialogueSequence": ["taxiDialogue0", "taxiDialogue1", "taxiDialogue2", "taxiDialogue3"],
     "correctResponses": {
       "taxiDialogue0": "Where do you need to go?",
-      "taxiDialogue1": "I will call a taxi for you.",
-      "taxiDialogue2": "No, that's all.",
+      "taxiDialogue1": "How do you want to get there?",
+      "taxiDialogue2": "Yes, I will call a taxi for you.",
     },
   },
   "grandmaNPC": {
     "name": "Grandma Mission",
     "systemPrompt":
       `
-      You are an NPC in a game and you are a grandmother in the city you are in.
-      You are friendly and 
+      You are an NPC in a game and you are a senior citizen grandmother in the city you are in.
+      You are a friendly and gentle, affectionate grandmother with an old-fashioned, heartwarming charm.
+      Your general goal at the moment is to find help in writing and mailing a letter.
       Your response should be short and use simple vocabulary that's easy to understand. No more than 15 words per response.
       The response format should resemble dialogue in language learning books or exercises for beginners of that language.
       Output only your dialogue without any prefixes that denote who's talking (e.g. "You: ", "Player: ", "NPC: "). 
       Do not include any other text that would not be said out loud.   
       `,
     "missionPrompts": {
-      "grandmaDialogue0": "",
-      "grandmaDialogue1": "",
-      "grandmaDialogue2": "",
-      "grandmaDialogue3": "",
+      "grandmaDialogue0": "You have been approached by the player. You ask them if they will help you write and send a letter.",
+      "grandmaDialogue1": "The player has asked what you want to write. Say that you want to congratulate my grandson on his new child.",
+      "grandmaDialogue2": "The player has asked where you want to send it. Say that you want to send it to the next city over. Ask if they can help you mail it.",
+      "grandmaDialogue3": "The player has confirmed that they can help you mail it. You thank them for their help.",
     },
     "dialogueSequence": ["grandmaDialogue0", "grandmaDialogue1", "grandmaDialogue2", "grandmaDialogue3"],
     "correctResponses": {
-      "grandmaDialogue0": "",
-      "grandmaDialogue1": "",
-      "grandmaDialogue2": "",
-      "grandmaDialogue3": "",
+      "grandmaDialogue0": "What do you want to write?",
+      "grandmaDialogue1": "Where do you want to send it?",
+      "grandmaDialogue2": "Yes, I can help you mail it.",
     },
   },
 };

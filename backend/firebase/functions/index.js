@@ -11,9 +11,28 @@ const openai = new OpenAI({
   apiKey: process.env.LIVE_OPENAIKEY || "",
 });
 
+const languageCodeMap = {
+  en: "English",
+  es: "Spanish",
+  ar: "Arabic",
+  fr: "French",
+  he: "Hebrew",
+  de: "German",
+  ja: "Japanese",
+  ko: "Korean",
+  zh: "Chinese",
+};
 
-const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
-  const currentNPC = npcData[npcName];
+const callDialogueLLM = async (npcID, dialogueIndex = 0, userInput = "", prevRespID = undefined, languageName = "English") => {
+  const currentNPC = npcData[npcID];
+
+  if (!currentNPC) {
+    return {
+      outputText: "INVALID_NPC",
+      responseID: undefined,
+    };
+  }
+
   const systemPrompt = currentNPC.systemPrompt;
   const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
   const currentDialogue = currentNPC.missionPrompts[dialogueName];
@@ -21,7 +40,7 @@ const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevR
   const messages = [
     {
       "role": "system",
-      "content": systemPrompt,
+      "content": `${systemPrompt} The language of the NPC is ${languageName}.`,
     },
     {
       "role": "developer",
@@ -49,9 +68,21 @@ const callDialogueLLM = async (npcName, dialogueIndex = 0, userInput = "", prevR
 
 app.post("/dialogue", async (req, res) => {
   try {
-    const {npcName, dialogueIndex, userInput, prevRespID} = req.body;
+    const {npcID, dialogueIndex, userInput, prevRespID, language} = req.body;
 
-    const dialogueResponse = await callDialogueLLM(npcName, dialogueIndex, userInput, prevRespID);
+    const languageName = languageCodeMap[language];
+    if (!languageName) {
+      res.status(400).send("Invalid language");
+      return;
+    }
+
+    const dialogueResponse = await callDialogueLLM(npcID, dialogueIndex, userInput, prevRespID, languageName);
+
+    if (dialogueResponse.responseID === undefined) {
+      res.status(400).send("Invalid NPC ID");
+      return;
+    }
+
     res.send(dialogueResponse);
   } catch (error) {
     console.error(error);
@@ -60,8 +91,16 @@ app.post("/dialogue", async (req, res) => {
 });
 
 
-const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevRespID = undefined) => {
-  const currentNPC = npcData[npcName];
+const semanticEval = async (npcID, dialogueIndex = 0, userInput = "", prevRespID = undefined, languageName = "English") => {
+  const currentNPC = npcData[npcID];
+
+  if (!currentNPC) {
+    return {
+      passed: "no",
+      reason: "INVALID_NPC",
+    };
+  }
+
   const dialogueName = currentNPC.dialogueSequence[dialogueIndex];
   const correctResponse = currentNPC.correctResponses[dialogueName];
 
@@ -75,6 +114,7 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
             Do not rewrite and do not correct the user input or user responses.
             You must be strict in regard to grammar and spelling errors.
             You will be given the conversaton history, a correct reference phrase (Correct Reference Response), and a response from the user (User Input). 
+            The language of the NPC is ${languageName}.
             `,
     },
     {
@@ -84,6 +124,7 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
             Correct Reference Response: "${correctResponse}"
             User Input: "${userInput}"
 
+            Assuming that we were to translate both the Correct Reference Response and the User Input to ${languageName}:
             Is the user input phrase free of spelling errors?
             If so, is the user input free of language syntax errors?
             If so, does the user input phrase make sense as a reply to the LLM NPCs last output and is similar to the correct reference response?
@@ -125,9 +166,21 @@ const semanticEval = async (npcName, dialogueIndex = 0, userInput = "", prevResp
 
 app.post("/evaluate", async (req, res) => {
   try {
-    const {npcName, dialogueIndex, userInput, prevRespID} = req.body;
+    const {npcID, dialogueIndex, userInput, prevRespID, language} = req.body;
 
-    const evalResponse = await semanticEval(npcName, dialogueIndex, userInput, prevRespID);
+    const languageName = languageCodeMap[language];
+    if (!languageName) {
+      res.status(400).send("Invalid language");
+      return;
+    }
+
+    const evalResponse = await semanticEval(npcID, dialogueIndex, userInput, prevRespID, languageName);
+
+    if (evalResponse.reason === "INVALID_NPC") {
+      res.status(400).send("Invalid NPC ID");
+      return;
+    }
+
     res.send(evalResponse);
   } catch (error) {
     console.error(error);
