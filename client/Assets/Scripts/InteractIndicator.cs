@@ -20,6 +20,7 @@ public class InteractIndicator : MonoBehaviour
 
     private Vector3 originalLocalPos;
     private Quaternion originalLocalRot;
+    private bool originalPosStored = false;
 
     private bool inConversation = false;
 
@@ -31,6 +32,15 @@ public class InteractIndicator : MonoBehaviour
 
         if (chatbox)
             chatbox.OnChatClosed += EndConversation;
+
+        // Store the camera's original position at start
+        if (cam != null && cam.parent == player)
+        {
+            originalLocalPos = cam.localPosition;
+            originalLocalRot = cam.localRotation;
+            originalPosStored = true;
+            Debug.Log($"[InteractIndicator] Stored original camera position: {originalLocalPos}, rotation: {originalLocalRot.eulerAngles}");
+        }
     }
 
     void Update()
@@ -61,16 +71,12 @@ public class InteractIndicator : MonoBehaviour
         interactIndicator.transform.LookAt(targetPos);
         interactIndicator.transform.Rotate(0f, 180f, 0f);
 
-        // Interact
-        if (Input.GetKeyDown(interactKey) && chatbox)
-        {
-            chatbox.OpenChat();
-            interactIndicator.enabled = false;
-            BeginConversationCameraMove();
-        }
+        // Note: Interaction is now handled by PlayerInteraction + NPCInteractable
+        // This script only shows the visual "Press E" indicator
+        // To re-enable camera movement, call BeginConversationCameraMove() from NPCInteractable or NpcDialogueUI
     }
 
-    private void BeginConversationCameraMove()
+    public void BeginConversationCameraMove()
     {
         inConversation = true;
 
@@ -80,9 +86,14 @@ public class InteractIndicator : MonoBehaviour
         if (playerInteraction)
             playerInteraction.enabled = false;
 
-        // Store camera's local info
-        originalLocalPos = cam.localPosition;
-        originalLocalRot = cam.localRotation;
+        // Store camera's local info only if not already stored at Start
+        if (!originalPosStored && cam.parent == player)
+        {
+            originalLocalPos = cam.localPosition;
+            originalLocalRot = cam.localRotation;
+            originalPosStored = true;
+            Debug.Log($"[InteractIndicator] Storing camera position during interaction: {originalLocalPos}");
+        }
 
         cam.SetParent(null);
 
@@ -103,8 +114,17 @@ public class InteractIndicator : MonoBehaviour
             yield return null;
         }
 
+        // Lock camera to exact target position and rotation
         cam.position = target.position;
         cam.rotation = target.rotation;
+
+        // Keep camera locked at conversation point while chatting
+        while (inConversation)
+        {
+            cam.position = target.position;
+            cam.rotation = target.rotation;
+            yield return null;
+        }
     }
 
     private void EndConversation()
@@ -117,31 +137,22 @@ public class InteractIndicator : MonoBehaviour
 
     private IEnumerator ReturnCamera()
     {
-        Vector3 startPos = cam.position;
-        Quaternion startRot = cam.rotation;
+        Debug.Log($"[InteractIndicator] Returning camera. Original pos: {originalLocalPos}, rot: {originalLocalRot.eulerAngles}");
 
-        Vector3 targetWorldPos = player.TransformPoint(originalLocalPos);
-        Quaternion targetWorldRot = player.rotation * originalLocalRot;
-
-        float t = 0f;
-
-        while (t < 1f)
-        {
-            t += Time.deltaTime * camMoveSpeed;
-            cam.position = Vector3.Lerp(startPos, targetWorldPos, t);
-            cam.rotation = Quaternion.Lerp(startRot, targetWorldRot, t);
-            yield return null;
-        }
-
-        // Restore camera as child
+        // Immediately re-parent camera to player and snap to original position
         cam.SetParent(player);
         cam.localPosition = originalLocalPos;
         cam.localRotation = originalLocalRot;
 
+        Debug.Log($"[InteractIndicator] Camera snapped back to: {cam.localPosition}");
+
+        // Re-enable controls
         if (cameraController)
             cameraController.enabled = true;
 
         if (playerInteraction)
             playerInteraction.enabled = true;
+
+        yield return null;
     }
 }
