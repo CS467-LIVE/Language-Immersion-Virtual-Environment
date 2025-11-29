@@ -3,15 +3,28 @@ using UnityEngine;
 
 public class NpcDialogueUI : MonoBehaviour
 {
-    public TMP_InputField inputField;
-    public TMP_Text dialogueHistory;
-
     [Header("Visual UI")]
     [Tooltip("Reference to Jackie's ChatboxUI for visual display")]
     public ChatboxUI chatboxUI;
 
     [SerializeField]
     private NpcConversation currentNpc;
+
+    void Update()
+    {
+        // Only trigger when:
+        //  - chatbox is open
+        //  - the input field has focus
+        //  - player hits Enter (Return or keypad Enter)
+        if (chatboxUI != null &&
+            chatboxUI.IsOpen &&
+            chatboxUI.npcInputField != null &&
+            chatboxUI.npcInputField.isFocused &&
+            (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+        {
+            SubmitPlayerMessage();
+        }
+    }
 
     public void SetActiveNpc(NpcConversation npc)
     {
@@ -41,15 +54,16 @@ public class NpcDialogueUI : MonoBehaviour
         }
     }
 
-    public void OnSendButtonClicked()
+    public void SubmitPlayerMessage()
     {
+        Debug.Log("SubmitPlayerMessage called");
         if (currentNpc == null) return;
-        string text = inputField.text;
+        string text = chatboxUI.npcInputField.text;
         if (string.IsNullOrWhiteSpace(text)) return;
 
         AppendLine($"You: {text}");
         currentNpc.HandlePlayerInput(text);
-        inputField.text = "";
+        chatboxUI.npcInputField.text = "";
     }
 
     private void HandleNpcLine(NpcConversation npc, string line)
@@ -72,6 +86,6 @@ public class NpcDialogueUI : MonoBehaviour
 
     private void AppendLine(string line)
     {
-        dialogueHistory.text += line + "\n";
+        chatboxUI.npcDialogueHistory.text += line + "\n";
     }
 }
