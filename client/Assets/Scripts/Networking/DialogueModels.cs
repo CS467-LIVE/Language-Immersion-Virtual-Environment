@@ -5,7 +5,7 @@ public class DialogueRequest
     public int dialogueIndex;
     public string userInput;
     public string prevRespID;
-    public string language;
+    public string language;  // e.g., "en", "es", etc.
 }
 
 [System.Serializable]
@@ -23,7 +23,7 @@ public class EvaluateRequest
     public int dialogueIndex;
     public string userInput;
     public string prevRespID;
-    public string language;
+    public string language;  // e.g., "en", "es", etc.
 }
 
 [System.Serializable]

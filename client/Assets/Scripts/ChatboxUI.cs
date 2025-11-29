@@ -1,6 +1,7 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class ChatboxUI : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class ChatboxUI : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Button closeButton;
+    [SerializeField] public TMP_Text npcDialogueHistory;
+    [SerializeField] public TMP_InputField npcInputField;
 
     public bool IsOpen => gameObject.activeSelf;
 

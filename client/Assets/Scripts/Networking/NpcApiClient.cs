@@ -30,15 +30,29 @@ public class NpcApiClient : MonoBehaviour
 
         yield return request.SendWebRequest();
 
+        // Always log response body and code to help debugging 400/500 responses
+        var respText = request.downloadHandler != null ? request.downloadHandler.text : string.Empty;
+        Debug.Log($"Response code: {request.responseCode}; text: {respText}");
+
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError($"NPC API request failed: {request.error}");
-            onError?.Invoke(request.error);
+            var message = $"HTTP {(long)request.responseCode} {request.error}. Server response: {respText}";
+            Debug.LogError($"NPC API request failed: {message}");
+            onError?.Invoke(message);
         }
         else
         {
-            var resp = JsonUtility.FromJson<TResp>(request.downloadHandler.text);
-            onSuccess(resp);
+            try
+            {
+                var resp = JsonUtility.FromJson<TResp>(respText);
+                onSuccess(resp);
+            }
+            catch (Exception ex)
+            {
+                var message = $"Failed to parse response JSON: {ex.Message}. Raw body: {respText}";
+                Debug.LogError(message);
+                onError?.Invoke(message);
+            }
         }
     }
 }
