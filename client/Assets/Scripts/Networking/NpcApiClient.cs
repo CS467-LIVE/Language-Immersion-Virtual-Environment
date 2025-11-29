@@ -38,7 +38,6 @@ public class NpcApiClient : MonoBehaviour
         if (request.result != UnityWebRequest.Result.Success)
         {
             var message = $"HTTP {(long)request.responseCode} {request.error}. Server response: {respText}";
-            Debug.LogError(message);
             onError?.Invoke(message);
         }
         else
@@ -46,7 +45,6 @@ public class NpcApiClient : MonoBehaviour
             try
             {
                 var resp = JsonUtility.FromJson<TResp>(respText);
-                Debug.Log(resp);
                 onSuccess(resp);
             }
             catch (Exception ex)

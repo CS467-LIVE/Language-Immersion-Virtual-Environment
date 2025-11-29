@@ -50,7 +50,8 @@ public class NpcConversation : MonoBehaviour
             npcID = npcId,
             dialogueIndex = dialogueIndex,
             userInput = playerText,
-            prevRespID = prevRespID
+            prevRespID = prevRespID,
+            language = GameSettings.CurrentLanguageCode
         };
 
         StartCoroutine(apiClient.CallEvaluation(
