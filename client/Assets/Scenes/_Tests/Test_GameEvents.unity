@@ -186,7 +186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &202956261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2017,6 +2017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 2110676103}
   dialogueHistory: {fileID: 1915366178}
+  chatboxUI: {fileID: 0}
   currentNpc: {fileID: 0}
 --- !u!224 &2106551191
 RectTransform:

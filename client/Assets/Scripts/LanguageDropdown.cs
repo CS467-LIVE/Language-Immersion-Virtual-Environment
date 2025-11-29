@@ -9,7 +9,6 @@ public class LanguageDropdown : MonoBehaviour
     // map codes → full names
     private Dictionary<string, string> languages = new Dictionary<string, string>
     {
-        { "en", "English" },
         { "es", "Spanish" },
         { "ar", "Arabic" },
         { "fr", "French" },
@@ -36,6 +35,7 @@ public class LanguageDropdown : MonoBehaviour
     private void OnLanguageSelected(int index)
     {
         string code = codes[index];
-        Debug.Log("Selected language code: " + code);
+        GameSettings.CurrentLanguageCode = code;
+        Debug.Log("Language set to: " + code);
     }
 }
