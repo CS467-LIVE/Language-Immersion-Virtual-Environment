@@ -90,11 +90,13 @@ public class NpcConversation : MonoBehaviour
     {
         bool passed = evalResp.passed == "yes";
 
+        // Always send evaluation result (UI shows [Hint] here)
         OnEvaluationResult?.Invoke(this, passed, evalResp.reason);
 
         if (!passed)
         {
-            OnSystemMessage?.Invoke(this, evalResp.reason);
+            // ❌ Removed duplicate System message:
+            // OnSystemMessage?.Invoke(this, evalResp.reason);
             return;
         }
 
@@ -120,7 +122,6 @@ public class NpcConversation : MonoBehaviour
             HandleError
         ));
     }
-
 
     private void HandleError(string err)
     {

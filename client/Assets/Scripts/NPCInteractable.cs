@@ -48,11 +48,23 @@ public class NPCInteractable : MonoBehaviour
             audioSource.playOnAwake = false;
             audioSource.spatialBlend = 1f; // 3D sound
         }
+
+        // Auto-assign DialogueUI if missing, but don't spam console
+        if (dialogueUI == null)
+        {
+            dialogueUI = FindObjectOfType<NpcDialogueUI>();
+            if (dialogueUI == null)
+            {
+                Debug.LogError("[NPCInteractable] No NpcDialogueUI found in scene! Dialogue will not open.");
+            }
+            // (Removed noisy auto-link success log)
+        }
     }
 
     /// Called when player presses E near this NPC
     public void Interact()
     {
+        // Keep this — helpful but not spammy
         Debug.Log($"[NPC] Player interacting with {npcName}");
 
         // Play interaction sound
@@ -85,7 +97,10 @@ public class NPCInteractable : MonoBehaviour
                 subjectId = subjectId,
                 amount = 1
             });
+
+            // Keep: useful for debugging only rare custom events
             Debug.Log($"[NPC] Raised custom event for {subjectId}");
+
             return; // Don't open dialogue for custom event objects
         }
 
@@ -96,9 +111,9 @@ public class NPCInteractable : MonoBehaviour
             indicator.BeginConversationCameraMove();
         }
 
+        // --- START CONVERSATION ---
         if (dialogueUI != null && conversation != null)
         {
-            // tell the UI which NPC is now active
             dialogueUI.SetActiveNpc(conversation);
         }
         else if (conversation != null)
