@@ -7,6 +7,7 @@ public class NpcConversation : MonoBehaviour
 {
     [Header("Config")]
     public string npcId = "walletNPC";
+    public string npcName = "John";
 
     [Header("Runtime state")]
     public int dialogueIndex = 0;

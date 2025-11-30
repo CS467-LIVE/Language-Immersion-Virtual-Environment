@@ -64,7 +64,7 @@ public class NpcDialogueUI : MonoBehaviour
 
     private void HandleNpcLine(NpcConversation npc, string line)
     {
-        chatboxUI.AddNpc(npc.npcId, line);
+        chatboxUI.AddNpc(npc.npcName, line);
     }
 
     private void HandleSystemMessage(NpcConversation npc, string msg)

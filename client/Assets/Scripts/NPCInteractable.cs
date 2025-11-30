@@ -4,9 +4,6 @@ using Systems.Events;
 public class NPCInteractable : MonoBehaviour
 {
     [Header("NPC Info")]
-    [Tooltip("Display name of the NPC")]
-    public string npcName = "NPC";
-
     [Tooltip("NPC's role (e.g., Vendor, Police Officer, Citizen)")]
     public string npcRole = "Citizen";
 
@@ -65,7 +62,7 @@ public class NPCInteractable : MonoBehaviour
     public void Interact()
     {
         // Keep this — helpful but not spammy
-        Debug.Log($"[NPC] Player interacting with {npcName}");
+        Debug.Log($"[NPC] Player interacting with {conversation.npcName}");
 
         // Play interaction sound
         if (interactionSound != null && audioSource != null)

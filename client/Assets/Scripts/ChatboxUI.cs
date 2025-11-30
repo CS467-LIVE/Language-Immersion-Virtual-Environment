@@ -48,7 +48,17 @@ public class ChatboxUI : MonoBehaviour
         if (npcDialogueHistory == null)
             return;
 
-        npcDialogueHistory.text += line + "\n";
+        npcDialogueHistory.text += line + "<br>"; // keep <br> if you are using it
+
+        // TEMP DEBUG: dump characters with index and codepoint
+        var t = npcDialogueHistory.text;
+        var sb = new System.Text.StringBuilder("History chars:\n");
+        for (int i = 0; i < t.Length; i++)
+        {
+            char c = t[i];
+            sb.AppendLine($"{i:D3}: '{c}' U+{((int)c):X4}");
+        }
+        Debug.Log(sb.ToString());
 
         // NEW: auto-scroll
         ScrollToBottom();
@@ -87,9 +97,9 @@ public class ChatboxUI : MonoBehaviour
         AddLineToDialogue($"<color=#FF4444>[System] {message}</color>");
     }
 
-    public void AddNpc(string npcId, string msg)
+    public void AddNpc(string npcName, string msg)
     {
-        AddLineToDialogue($"{npcId}: {msg}");
+        AddLineToDialogue($"{npcName}: {msg}");
     }
 
     public void AddPlayer(string msg)
