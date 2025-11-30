@@ -20,35 +20,35 @@ MonoBehaviour:
     targetId: HOBO
     targetCount: 1
     customEventName: 
-    uiHint: Find a homeless person.
+    uiHint: Find the traveler with "!" on the corner of a street. Press E to talk.
   - objectiveId: hobo_pickup
     type: 0
     targetId: HOBO
     targetCount: 1
     customEventName: 
-    uiHint: Ask the hobo where he would liked to be picked up.
+    uiHint: Ask the traveler where he would liked to be picked up.
   - objectiveId: hobo_dropoff
     type: 0
     targetId: HOBO
     targetCount: 1
     customEventName: 
-    uiHint: Ask the homeless person where he would like to go.
+    uiHint: Ask the traveler where he would like to go.
   - objectiveId: find_phone_booth
     type: 1
     targetId: ANY_PHONE_BOOTH
     targetCount: 1
     customEventName: 
-    uiHint: Find a phone booth and press E.
+    uiHint: Find a phone booth to call a Taxi. Press E to interact.
   - objectiveId: provide_pickup_location
     type: 0
     targetId: ANY_PHONE_BOOTH
     targetCount: 1
     customEventName: 
-    uiHint: Provide the correct pick up location of the homeless person.
+    uiHint: Provide the correct pick up location of the traveler.
   - objectiveId: provide_dropoff_location
     type: 0
     targetId: ANY_PHONE_BOOTH
     targetCount: 1
     customEventName: 
-    uiHint: Provide the correct dropoff location.
+    uiHint: Provide the correct dropoff location for the traveler.
   starReward: 1

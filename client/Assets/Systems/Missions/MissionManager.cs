@@ -17,13 +17,13 @@ namespace Systems.Missions
         [SerializeField] private int starsEarnedTotal = 0;
 
         [Header("UI")]
-        [SerializeField] private TMP_Text missionTitleText;
+        [SerializeField] private TMP_Text missionDescriptionText;   // ← renamed
         [SerializeField] private TMP_Text missionHintText;
         [SerializeField] private TMP_Text missionBarText;
 
-        void UpdateMissionUI(string title, string hint)
+        void UpdateMissionUI(string description, string hint)
         {
-            if (missionTitleText) missionTitleText.text = title;
+            if (missionDescriptionText) missionDescriptionText.text = description;
             if (missionHintText) missionHintText.text = hint;
         }
 
@@ -160,28 +160,17 @@ namespace Systems.Missions
             }
         }
 
-        // Matches subject ID against target ID
-        // If targetId starts with "ANY_", matches any subjectId that starts with the base type
-        // Examples:
-        //   "ANY_PHONE_BOOTH" matches "PHONE_BOOTH_1", "PHONE_BOOTH_2", etc.
-        //   "ANY_MAILBOX" matches "MAILBOX_1", "MAILBOX_2", etc.
-        //   "HOBO" only matches exactly "HOBO"
         bool MatchesTargetId(string subjectId, string targetId)
         {
             if (string.IsNullOrEmpty(subjectId) || string.IsNullOrEmpty(targetId))
                 return false;
 
-            // If targetId starts with "ANY_", use matching
             if (targetId.StartsWith("ANY_"))
             {
-                // Extract the base type by removing "ANY_" prefix
-                string baseType = targetId.Substring(4); // Remove "ANY_"
-
-                // Check if subjectId starts with the base type
+                string baseType = targetId.Substring(4);
                 return subjectId.StartsWith(baseType);
             }
 
-            // Otherwise, use exact matching
             return subjectId == targetId;
         }
     }
