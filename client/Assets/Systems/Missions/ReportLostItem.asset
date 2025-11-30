@@ -17,26 +17,26 @@ MonoBehaviour:
   objectives:
   - objectiveId: find_citizen
     type: 1
-    targetId: NPC_CITIZEN_DISTRESSED
+    targetId: NPC_Distressed_Citizen
     targetCount: 1
     customEventName: 
     uiHint: Find the citizen wearing a red jacket with "!". Press E to talk.
   - objectiveId: get_details
     type: 0
-    targetId: NPC_CITIZEN_DISTRESSED
+    targetId: NPC_Distressed_Citizen
     targetCount: 1
     customEventName: 
     uiHint: Ask the citizen what was lost and confirm details.
   - objectiveId: go_to_station
     type: 2
-    targetId: ZONE_POLICE_STATION
+    targetId: SM_Bld_Station_02
     targetCount: 1
     customEventName: 
     uiHint: Go to the Police Station and find the police officer with an "!". Press
       E to talk.
   - objectiveId: report_to_officer
     type: 0
-    targetId: NPC_POLICE_OFFICER
+    targetId: NPC_Police
     targetCount: 1
     customEventName: 
     uiHint: Report the missing item and its details to the police officer.

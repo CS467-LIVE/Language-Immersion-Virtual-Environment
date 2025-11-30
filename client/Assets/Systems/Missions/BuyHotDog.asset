@@ -17,13 +17,13 @@ MonoBehaviour:
   objectives:
   - objectiveId: find_hotdog_seller
     type: 1
-    targetId: NPC_HOTDOG_SELLER
+    targetId: NPC_Hotdog
     targetCount: 1
     customEventName: 
     uiHint: Find the hotdog cart near the vendor with "!". Press E to talk.
   - objectiveId: obtain_hotdog
     type: 0
-    targetId: NPC_HOTDOG_SELLER
+    targetId: NPC_Hotdog
     targetCount: 1
     customEventName: 
     uiHint: Ask to buy a hotdog from the vendor.

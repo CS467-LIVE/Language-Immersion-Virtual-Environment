@@ -17,20 +17,20 @@ MonoBehaviour:
   objectives:
   - objectiveId: talk_to_old_lady
     type: 1
-    targetId: OLD_LADY
+    targetId: NPC_Grandma
     targetCount: 1
     customEventName: 
     uiHint: Find the elderly lady with "!". Press E to talk.
   - objectiveId: politely_accept_old_lady
     type: 0
-    targetId: OLD_LADY
+    targetId: NPC_Grandma
     targetCount: 1
     customEventName: 
     uiHint: 'Be generous and accept the request from the elderly lady. Bonus points:
       Mention that you think she looks super young.'
   - objectiveId: deposit_letter
     type: 3
-    targetId: MAILBOX
+    targetId: MailBox_1
     targetCount: 1
     customEventName: Deposit
     uiHint: Find a mailbox and press E to deposit the letter.
