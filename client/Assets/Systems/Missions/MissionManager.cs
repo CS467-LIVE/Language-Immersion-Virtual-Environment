@@ -149,8 +149,17 @@ namespace Systems.Missions
                 var oDef = def.objectives[mr.currentIndex];
                 var oState = mr.objectives[mr.currentIndex];
 
+                Debug.Log(
+                    "[MissionManager] Checking event against objective:\n" +
+                    $"  Event.type: {e.type}\n" +
+                    $"  Event.subjectId: {e.subjectId}\n" +
+                    $"  Objective.type: {oDef.type}\n" +
+                    $"  Objective.required: {oDef.targetId}"
+                );
+
                 if (Matches(e, oDef))
                 {
+                    //Debug.Log("[MissionManager] Event matched for mission '" + def.missionId + "', objective '" + oDef.objectiveId + "'");
                     oState.progress += Mathf.Max(1, e.amount);
 
                     if (oState.progress >= oState.required)
@@ -185,6 +194,10 @@ namespace Systems.Missions
                         UpdateMissionBar();
                     }
                 }
+                else
+                {
+                    //Debug.Log("[MissionManager] Event did NOT match for mission '" + def.missionId + "', objective '" + oDef.objectiveId + "'");
+                }
             }
         }
 
@@ -193,8 +206,8 @@ namespace Systems.Missions
             switch (o.type)
             {
                 case ObjectiveType.AiValidated: return e.type == "AiValidated" && MatchesTargetId(e.subjectId, o.targetId);
-                case ObjectiveType.Interacted:  return e.type == "Interacted" && MatchesTargetId(e.subjectId, o.targetId);
-                case ObjectiveType.EnterZone:   return e.type == "EnteredZone" && MatchesTargetId(e.subjectId, o.targetId);
+                case ObjectiveType.Interacted: return e.type == "Interacted" && MatchesTargetId(e.subjectId, o.targetId);
+                case ObjectiveType.EnterZone: return e.type == "EnteredZone" && MatchesTargetId(e.subjectId, o.targetId);
                 case ObjectiveType.CustomEvent: return e.type == "Custom" && MatchesTargetId(e.subjectId, o.targetId);
                 default: return false;
             }

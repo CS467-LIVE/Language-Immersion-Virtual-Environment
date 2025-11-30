@@ -7975,6 +7975,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c883717db02c6364b91b150f4bb88f76, type: 2}
   - {fileID: 11400000, guid: b8fd5c863fb4ebd49848646fc4298c54, type: 2}
   - {fileID: 11400000, guid: 61c7b009d3ef71546926c1f7d8a3522b, type: 2}
+  - {fileID: 11400000, guid: f71f970b0ba47f14992374437c7f535d, type: 2}
+  - {fileID: 11400000, guid: 40a99aed0317f2445ad1770994dfeb4f, type: 2}
+  - {fileID: 11400000, guid: 866b765c60f432949b42966a25a374c0, type: 2}
   m_FontWeightTable:
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}

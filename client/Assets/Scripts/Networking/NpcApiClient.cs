@@ -32,7 +32,7 @@ public class NpcApiClient : MonoBehaviour
 
         // Always log response body and code to help debugging 400/500 responses
         var respText = request.downloadHandler != null ? request.downloadHandler.text : string.Empty;
-        Debug.Log($"Response code: {request.responseCode}; text: {respText}");
+        //Debug.Log($"Response code: {request.responseCode}; text: {respText}");
 
         if (request.result != UnityWebRequest.Result.Success)
         {

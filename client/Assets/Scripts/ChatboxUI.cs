@@ -48,17 +48,7 @@ public class ChatboxUI : MonoBehaviour
         if (npcDialogueHistory == null)
             return;
 
-        npcDialogueHistory.text += line + "<br>"; // keep <br> if you are using it
-
-        // TEMP DEBUG: dump characters with index and codepoint
-        var t = npcDialogueHistory.text;
-        var sb = new System.Text.StringBuilder("History chars:\n");
-        for (int i = 0; i < t.Length; i++)
-        {
-            char c = t[i];
-            sb.AppendLine($"{i:D3}: '{c}' U+{((int)c):X4}");
-        }
-        Debug.Log(sb.ToString());
+        npcDialogueHistory.text += line + "<br>";
 
         // NEW: auto-scroll
         ScrollToBottom();

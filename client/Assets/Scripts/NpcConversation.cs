@@ -105,7 +105,7 @@ public class NpcConversation : MonoBehaviour
         dialogueIndex++;
 
         // notify missions: map dialogueIndex to a key
-        string stepKey = $"{npcId}_step_{dialogueIndex}";
+        string stepKey = $"{npcId}";
         RaiseDialogueStepEvent(stepKey);
 
         var req = new DialogueRequest
