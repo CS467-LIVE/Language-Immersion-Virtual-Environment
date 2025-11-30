@@ -17,9 +17,21 @@ namespace Systems.Missions
         [SerializeField] private int starsEarnedTotal = 0;
 
         [Header("UI")]
-        [SerializeField] private TMP_Text missionDescriptionText;   // ← renamed
+        [SerializeField] private TMP_Text missionDescriptionText;
         [SerializeField] private TMP_Text missionHintText;
         [SerializeField] private TMP_Text missionBarText;
+
+        [Header("Indicator")]
+        [SerializeField] private DirectionalIndicator indicator;
+
+        // --------------------------------------------
+        // Find target by GameObject name
+        // --------------------------------------------
+        Transform FindTargetByName(string name)
+        {
+            var go = GameObject.Find(name);
+            return go ? go.transform : null;
+        }
 
         void UpdateMissionUI(string description, string hint)
         {
@@ -72,10 +84,26 @@ namespace Systems.Missions
                 UpdateMissionUI(def.displayName, "(No objectives)");
 
             UpdateMissionBar();
+
+            // --------------------------------------------
+            // First objective target lookup + DEBUG
+            // --------------------------------------------
+            if (indicator != null && def.objectives.Count > 0)
+            {
+                var obj = def.objectives[0];
+                Transform t = FindTargetByName(obj.targetId);
+
+                Debug.Log($"[MissionManager] LOOKING FOR FIRST TARGET: {obj.targetId} → {(t ? "FOUND: " + t.name : "NOT FOUND")}");
+
+                indicator.SetTarget(t);
+            }
         }
 
         void ActivateNextAfter(MissionDefinition finishedDef)
         {
+            if (indicator != null)
+                indicator.SetTarget(null);
+
             int idx = catalog.IndexOf(finishedDef);
             int nextIdx = idx + 1;
 
@@ -140,6 +168,18 @@ namespace Systems.Missions
                         {
                             var next = def.objectives[mr.currentIndex];
                             UpdateMissionUI(def.displayName, next.uiHint);
+
+                            // --------------------------------------------
+                            // Next objective target lookup + DEBUG
+                            // --------------------------------------------
+                            if (indicator != null)
+                            {
+                                Transform t = FindTargetByName(next.targetId);
+
+                                Debug.Log($"[MissionManager] LOOKING FOR NEXT TARGET: {next.targetId} → {(t ? "FOUND: " + t.name : "NOT FOUND")}");
+
+                                indicator.SetTarget(t);
+                            }
                         }
 
                         UpdateMissionBar();
@@ -153,8 +193,8 @@ namespace Systems.Missions
             switch (o.type)
             {
                 case ObjectiveType.AiValidated: return e.type == "AiValidated" && MatchesTargetId(e.subjectId, o.targetId);
-                case ObjectiveType.Interacted: return e.type == "Interacted" && MatchesTargetId(e.subjectId, o.targetId);
-                case ObjectiveType.EnterZone: return e.type == "EnteredZone" && MatchesTargetId(e.subjectId, o.targetId);
+                case ObjectiveType.Interacted:  return e.type == "Interacted" && MatchesTargetId(e.subjectId, o.targetId);
+                case ObjectiveType.EnterZone:   return e.type == "EnteredZone" && MatchesTargetId(e.subjectId, o.targetId);
                 case ObjectiveType.CustomEvent: return e.type == "Custom" && MatchesTargetId(e.subjectId, o.targetId);
                 default: return false;
             }

@@ -22,11 +22,11 @@ namespace Systems.Missions
     [System.Serializable]
     public class ObjectiveDef
     {
-        public string objectiveId;          // unique within the mission
+        public string objectiveId;
         public ObjectiveType type;
-        public string targetId;             // e.g., NPC id or Zone id
-        public int targetCount = 1;         // usually 1
-        public string customEventName;      // for CustomEvent (optional UI hint)
+        public string targetId;
+        public int targetCount = 1;
+        public string customEventName;
         [TextArea] public string uiHint;
     }
 }
