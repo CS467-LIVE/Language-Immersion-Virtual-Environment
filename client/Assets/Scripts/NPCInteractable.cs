@@ -62,7 +62,7 @@ public class NPCInteractable : MonoBehaviour
     public void Interact()
     {
         // Keep this — helpful but not spammy
-        Debug.Log($"[NPC] Player interacting with {conversation.npcName}");
+        //Debug.Log($"[NPC] Player interacting with {conversation.npcName}");
 
         // Play interaction sound
         if (interactionSound != null && audioSource != null)
@@ -77,7 +77,7 @@ public class NPCInteractable : MonoBehaviour
                     ? conversation.npcId
                     : name); // fallback to GameObject name
 
-        Debug.Log($"[NPC] Using subjectId: {subjectId}");
+        //Debug.Log($"[NPC] Using subjectId: {subjectId}");
         // Raise event for mission system
         GameEvents.Raise(new GameEvent
         {

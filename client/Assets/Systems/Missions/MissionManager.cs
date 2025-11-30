@@ -149,13 +149,13 @@ namespace Systems.Missions
                 var oDef = def.objectives[mr.currentIndex];
                 var oState = mr.objectives[mr.currentIndex];
 
-                Debug.Log(
-                    "[MissionManager] Checking event against objective:\n" +
-                    $"  Event.type: {e.type}\n" +
-                    $"  Event.subjectId: {e.subjectId}\n" +
-                    $"  Objective.type: {oDef.type}\n" +
-                    $"  Objective.required: {oDef.targetId}"
-                );
+                //Debug.Log(
+                //    "[MissionManager] Checking event against objective:\n" +
+                //    $"  Event.type: {e.type}\n" +
+                //    $"  Event.subjectId: {e.subjectId}\n" +
+                //    $"  Objective.type: {oDef.type}\n" +
+                //    $"  Objective.required: {oDef.targetId}"
+                //);
 
                 if (Matches(e, oDef))
                 {

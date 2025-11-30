@@ -32,12 +32,17 @@ public class ChatboxUI : MonoBehaviour
         // Autofocus input
         if (npcInputField != null)
             npcInputField.ActivateInputField();
+        Debug.Log("ChatboxUI: Chat opened.");
     }
 
     public void CloseChat()
     {
+        Debug.Log("ChatboxUI: Closing chat...");
         gameObject.SetActive(false);
+        Debug.Log("ChatboxUI: Chat closed, invoking event...");
         OnChatClosed?.Invoke();
+        Debug.Log("ChatboxUI: Event invoked.");
+        Debug.Log("ChatboxUI: Chat closed.");
     }
 
     // -------------------------------------------------------------

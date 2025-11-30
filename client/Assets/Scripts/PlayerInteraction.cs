@@ -27,7 +27,7 @@ public class PlayerInteraction : MonoBehaviour
         if (npc != null)
         {
             currentNPC = npc;
-            Debug.Log($"Can interact with {npc.conversation.npcName}.");
+            //Debug.Log($"Can interact with {npc.conversation.npcName}.");
         }
     }
 
