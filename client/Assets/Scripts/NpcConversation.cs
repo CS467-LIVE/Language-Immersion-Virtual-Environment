@@ -30,7 +30,8 @@ public class NpcConversation : MonoBehaviour
             npcID = npcId,
             dialogueIndex = dialogueIndex,
             userInput = "",
-            prevRespID = null
+            prevRespID = null,
+            language = GameSettings.CurrentLanguageCode
         };
 
         StartCoroutine(apiClient.CallDialogue(
@@ -49,7 +50,8 @@ public class NpcConversation : MonoBehaviour
             npcID = npcId,
             dialogueIndex = dialogueIndex,
             userInput = playerText,
-            prevRespID = prevRespID
+            prevRespID = prevRespID,
+            language = GameSettings.CurrentLanguageCode
         };
 
         StartCoroutine(apiClient.CallEvaluation(
@@ -102,7 +104,8 @@ public class NpcConversation : MonoBehaviour
             npcID = npcId,
             dialogueIndex = dialogueIndex,
             userInput = playerText,
-            prevRespID = prevRespID
+            prevRespID = prevRespID,
+            language = GameSettings.CurrentLanguageCode
         };
 
         StartCoroutine(apiClient.CallDialogue(
@@ -115,7 +118,13 @@ public class NpcConversation : MonoBehaviour
 
     private void HandleError(string err)
     {
-        Debug.LogError($"NpcConversation error for {npcId}: {err}");
+        Debug.LogError(
+        $"NpcConversation error\n" +
+        $"  NPC ID: {npcId}\n" +
+        $"  Error: {err}\n" +
+        $"  Stack: {Environment.StackTrace}"
+    );
+
         OnSystemMessage?.Invoke(this, "Error talking to NPC. Please try again.");
     }
 
