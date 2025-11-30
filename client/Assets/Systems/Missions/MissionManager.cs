@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Events;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace Systems.Missions
 {
@@ -14,6 +16,34 @@ namespace Systems.Missions
         [SerializeField] private List<MissionRuntime> active = new();
         [SerializeField] private int starsEarnedTotal = 0;
 
+        [Header("UI")]
+        [SerializeField] private TMP_Text missionTitleText;
+        [SerializeField] private TMP_Text missionHintText;
+        [SerializeField] private TMP_Text missionBarText;
+
+        void UpdateMissionUI(string title, string hint)
+        {
+            if (missionTitleText) missionTitleText.text = title;
+            if (missionHintText) missionHintText.text = hint;
+        }
+
+        void UpdateMissionBar()
+        {
+            if (active.Count == 0 || missionBarText == null) return;
+
+            var def = active[0].definitionRef;
+            int current = Mathf.Clamp(catalog.IndexOf(def) + 1, 1, catalog.Count);
+            int total = catalog.Count;
+
+            missionBarText.text = $"Mission {current} out of {total}";
+        }
+
+        void Start()
+        {
+            if (active.Count == 0)
+                ActivateFirst();
+        }
+
         void OnEnable()
         {
             GameEvents.OnEvent += HandleEvent;
@@ -22,74 +52,70 @@ namespace Systems.Missions
 
         void OnDisable() => GameEvents.OnEvent -= HandleEvent;
 
-        void ActivateAll()
-        {
-            active.Clear();
-            foreach (var def in catalog)
-            {
-                var mr = new MissionRuntime { missionId = def.missionId };
-                foreach (var o in def.objectives)
-                    mr.objectives.Add(new ObjectiveState { objectiveId = o.objectiveId, required = Mathf.Max(1, o.targetCount) });
-
-                active.Add(mr);
-                Debug.Log($"[Missions] Activated: {def.displayName} ({def.objectives.Count} steps)");
-            }
-        }
-
         void ActivateFirst()
         {
             if (catalog == null || catalog.Count == 0) return;
             ActivateMissionByDef(catalog[0]);
         }
 
-        // Activate a specific mission by definition (clears any previously active)
         public void ActivateMissionByDef(MissionDefinition def)
         {
-            if (def == null) return;
             active.Clear();
+
             var mr = CreateRuntimeFromDef(def);
+            mr.definitionRef = def;
             active.Add(mr);
-            Debug.Log($"[Missions] Activated (single): {def.displayName} ({def.objectives.Count} steps)");
+
+            if (def.objectives.Count > 0)
+                UpdateMissionUI(def.displayName, def.objectives[0].uiHint);
+            else
+                UpdateMissionUI(def.displayName, "(No objectives)");
+
+            UpdateMissionBar();
         }
 
-        // Activate the next mission in the catalog after the provided definition (or after the currently active)
         void ActivateNextAfter(MissionDefinition finishedDef)
         {
-            if (catalog == null || catalog.Count == 0) return;
-            var idx = catalog.IndexOf(finishedDef);
-            var nextIdx = idx + 1;
+            int idx = catalog.IndexOf(finishedDef);
+            int nextIdx = idx + 1;
+
             if (nextIdx >= 0 && nextIdx < catalog.Count)
             {
                 ActivateMissionByDef(catalog[nextIdx]);
             }
             else
             {
-                // No more missions: clear active
-                active.Clear();
-                Debug.Log("[Missions] All catalog missions completed or no next mission.");
+                SceneManager.LoadScene("EndScene");
             }
         }
 
         MissionRuntime CreateRuntimeFromDef(MissionDefinition def)
         {
-            var mr = new MissionRuntime { missionId = def.missionId };
+            var mr = new MissionRuntime
+            {
+                missionId = def.missionId,
+                definitionRef = def
+            };
+
             foreach (var o in def.objectives)
-                mr.objectives.Add(new ObjectiveState { objectiveId = o.objectiveId, required = Mathf.Max(1, o.targetCount) });
+                mr.objectives.Add(new ObjectiveState
+                {
+                    objectiveId = o.objectiveId,
+                    required = Mathf.Max(1, o.targetCount)
+                });
+
             return mr;
         }
 
         void HandleEvent(GameEvent e)
         {
-            // snapshot so we don't modify collection while iterating
             var currentMissions = active.Where(m => !m.completed).ToList();
 
-            // Only process the currently active mission(s) (we keep at most one in normal flow)
             foreach (var mr in currentMissions)
             {
-                var def = catalog.FirstOrDefault(d => d.missionId == mr.missionId);
+                var def = mr.definitionRef;
                 if (def == null) continue;
 
-                // Only the current objective is active (sequential flow)
                 if (mr.currentIndex < 0 || mr.currentIndex >= def.objectives.Count) continue;
 
                 var oDef = def.objectives[mr.currentIndex];
@@ -98,7 +124,6 @@ namespace Systems.Missions
                 if (Matches(e, oDef))
                 {
                     oState.progress += Mathf.Max(1, e.amount);
-                    Debug.Log($"[Missions] {def.displayName} — {oDef.objectiveId}: {oState.progress}/{oState.required}");
 
                     if (oState.progress >= oState.required)
                     {
@@ -109,16 +134,15 @@ namespace Systems.Missions
                         {
                             mr.completed = true;
                             starsEarnedTotal += Mathf.Max(0, def.starReward);
-                            Debug.Log($"[Missions] COMPLETED: {def.displayName} (+{def.starReward}⭐)  Total Stars: {starsEarnedTotal}");
-
-                            // Automatically activate the next mission in the catalog (if any)
                             ActivateNextAfter(def);
                         }
                         else
                         {
                             var next = def.objectives[mr.currentIndex];
-                            Debug.Log($"[Missions] Next step: {next.objectiveId} — {next.uiHint}");
+                            UpdateMissionUI(def.displayName, next.uiHint);
                         }
+
+                        UpdateMissionBar();
                     }
                 }
             }
