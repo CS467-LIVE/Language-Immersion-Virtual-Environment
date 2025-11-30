@@ -49,24 +49,22 @@ public class NPCInteractable : MonoBehaviour
             audioSource.spatialBlend = 1f; // 3D sound
         }
 
-        // ★ AUTO-ASSIGN DialogueManager if missing
+        // Auto-assign DialogueUI if missing, but don't spam console
         if (dialogueUI == null)
         {
             dialogueUI = FindObjectOfType<NpcDialogueUI>();
-            if (dialogueUI != null)
-            {
-                Debug.Log($"[NPCInteractable] Auto-linked DialogueUI for {npcName}");
-            }
-            else
+            if (dialogueUI == null)
             {
                 Debug.LogError("[NPCInteractable] No NpcDialogueUI found in scene! Dialogue will not open.");
             }
+            // (Removed noisy auto-link success log)
         }
     }
 
     /// Called when player presses E near this NPC
     public void Interact()
     {
+        // Keep this — helpful but not spammy
         Debug.Log($"[NPC] Player interacting with {npcName}");
 
         // Play interaction sound
@@ -99,7 +97,10 @@ public class NPCInteractable : MonoBehaviour
                 subjectId = subjectId,
                 amount = 1
             });
+
+            // Keep: useful for debugging only rare custom events
             Debug.Log($"[NPC] Raised custom event for {subjectId}");
+
             return; // Don't open dialogue for custom event objects
         }
 
