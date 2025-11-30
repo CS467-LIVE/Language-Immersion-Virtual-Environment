@@ -42,7 +42,7 @@ MonoBehaviour:
       E to talk.
   - objectiveId: report_to_officer
     type: 0
-    targetId: walletNPC
+    targetId: policeNPC
     targetCount: 1
     customEventName: 
     uiHint: Report the missing item and its details to the police officer.

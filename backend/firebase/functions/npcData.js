@@ -22,21 +22,12 @@ const npcData = {
       "walletDialogue1": "The player has asked what you lost. Tell them that you lost a wallet.",
       // game prompts the player to ask what the color and shape is of the wallet
       "walletDialogue2": `The player has asked what the color and shape is of the wallet. You say that it is dark brown and square. 
-                        You then ask the player if they will report it to the police for you.`,
-      // game prompts the player to confirm they will help the NPC
-      "walletDialogue3": `The player has confirmed that they will help you, you thank the player for their help. `,
-      // conversation should now be able to be exited, and if the player returns before reporting to the police...
-      "walletDialogue4": `The player has just left to report your lost wallet to the police, per your request. 
-                        If the player approaches you, you acknowledge anything they say,
-                        but you always ask if there are any updates on your lost wallet.`,
-
+                        You then ask the player to report this to the police on your behalf.`
     },
-    "dialogueSequence": ["walletDialogue0", "walletDialogue1", "walletDialogue2", "walletDialogue3", "walletDialogue4"],
+    "dialogueSequence": ["walletDialogue0", "walletDialogue1", "walletDialogue2"],
     "correctResponses": {
       "walletDialogue0": "What did you lose?",
-      "walletDialogue1": "What is the color and shape?",
-      "walletDialogue2": "Yes, I will help you.",
-      "walletDialogue3": "You're welcome.",
+      "walletDialogue1": "What is the color and shape?"
     },
   },
   "policeNPC": {
@@ -53,21 +44,11 @@ const npcData = {
       // player approaches police NPC after completing first convo with wallet NPC
       // NPC response should be something like: "What seems to be the issue?"
       "policeDialogue0": "You are approached by a citizen who wants to report a situation to the police. You ask them to describe their issue.",
-      // game prompts the player to describe a lost item
-      "policeDialogue1": `The player has described someone someone losing an item, you ask them what kind of item it is.`,
-      // game prompts the player to say the item is a wallet
-      "policeDialogue2": `They have described a wallet, you ask them to confirm the wallet color.`,
-      // game prompts the player to confirm the wallet color
-      "policeDialogue3": `They have confirmed the correct color and say that someone just turned one in to the lost and found.`,
-      // game prompts the player to confirm they will let the person know
-      "policeDialogue4": `They have confirmed that they will let the person know, thank them for their help.`,
+      "policeDialogue1": "The citizen has described their lost item. You confirm the details of the lost item: a square, dark brown wallet. You let them know you will file the report.",
     },
-    "dialogueSequence": ["policeDialogue0", "policeDialogue1", "policeDialogue2", "policeDialogue3", "policeDialogue4"],
+    "dialogueSequence": ["policeDialogue0", "policeDialogue1"],
     "correctResponses": {
-      "policeDialogue0": "I want to report a lost item",
-      "policeDialogue1": "It is a wallet",
-      "policeDialogue2": "It is dark brown",
-      "policeDialogue3": "I will let them know.",
+      "policeDialogue0": "I want to report a lost square and dark brown wallet.",
     },
   },
   "hotdogNPC": {

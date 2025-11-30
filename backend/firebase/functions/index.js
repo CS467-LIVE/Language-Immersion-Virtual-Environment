@@ -112,7 +112,6 @@ const semanticEval = async (npcID, dialogueIndex = 0, userInput = "", prevRespID
             You can see the recent conversation between the NPC and the player (user).
             Use that context plus the extra information in this message to judge the latest player reply.
             Do not rewrite and do not correct the user input or user responses.
-            You must be strict in regard to grammar and spelling errors.
             You will be given the conversaton history, a correct reference phrase (Correct Reference Response), and a response from the user (User Input). 
             The language of the NPC is ${languageName}.
             `,
