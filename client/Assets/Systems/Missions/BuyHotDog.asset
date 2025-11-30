@@ -20,11 +20,11 @@ MonoBehaviour:
     targetId: NPC_HOTDOG_SELLER
     targetCount: 1
     customEventName: 
-    uiHint: Find the hotdog cart with "!" and press E to talk.
+    uiHint: Find the hotdog cart near the vendor with "!". Press E to talk.
   - objectiveId: obtain_hotdog
     type: 0
     targetId: NPC_HOTDOG_SELLER
     targetCount: 1
     customEventName: 
-    uiHint: Ask for a hotdog in the respective language.
+    uiHint: Ask to buy a hotdog from the vendor.
   starReward: 1
