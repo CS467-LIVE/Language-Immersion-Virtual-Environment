@@ -152,12 +152,37 @@ namespace Systems.Missions
         {
             switch (o.type)
             {
-                case ObjectiveType.AiValidated: return e.type == "AiValidated" && e.subjectId == o.targetId;
-                case ObjectiveType.Interacted: return e.type == "Interacted" && e.subjectId == o.targetId;
-                case ObjectiveType.EnterZone: return e.type == "EnteredZone" && e.subjectId == o.targetId;
-                case ObjectiveType.CustomEvent: return e.type == "Custom" && e.subjectId == o.targetId;
+                case ObjectiveType.AiValidated: return e.type == "AiValidated" && MatchesTargetId(e.subjectId, o.targetId);
+                case ObjectiveType.Interacted: return e.type == "Interacted" && MatchesTargetId(e.subjectId, o.targetId);
+                case ObjectiveType.EnterZone: return e.type == "EnteredZone" && MatchesTargetId(e.subjectId, o.targetId);
+                case ObjectiveType.CustomEvent: return e.type == "Custom" && MatchesTargetId(e.subjectId, o.targetId);
                 default: return false;
             }
+        }
+
+        // Matches subject ID against target ID
+        // If targetId starts with "ANY_", matches any subjectId that starts with the base type
+        // Examples:
+        //   "ANY_PHONE_BOOTH" matches "PHONE_BOOTH_1", "PHONE_BOOTH_2", etc.
+        //   "ANY_MAILBOX" matches "MAILBOX_1", "MAILBOX_2", etc.
+        //   "HOBO" only matches exactly "HOBO"
+        bool MatchesTargetId(string subjectId, string targetId)
+        {
+            if (string.IsNullOrEmpty(subjectId) || string.IsNullOrEmpty(targetId))
+                return false;
+
+            // If targetId starts with "ANY_", use matching
+            if (targetId.StartsWith("ANY_"))
+            {
+                // Extract the base type by removing "ANY_" prefix
+                string baseType = targetId.Substring(4); // Remove "ANY_"
+
+                // Check if subjectId starts with the base type
+                return subjectId.StartsWith(baseType);
+            }
+
+            // Otherwise, use exact matching
+            return subjectId == targetId;
         }
     }
 }

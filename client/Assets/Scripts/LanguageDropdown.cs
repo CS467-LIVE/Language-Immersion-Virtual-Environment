@@ -13,7 +13,10 @@ public class LanguageDropdown : MonoBehaviour
         { "ar", "Arabic" },
         { "fr", "French" },
         { "zh", "Chinese" },
-        { "he", "Hebrew" }
+        { "he", "Hebrew" },
+        { "de", "German" },
+        { "ja", "Japanese" },
+        { "ko", "Korean" }
     };
 
     private List<string> codes;   // keeps codes in dropdown order

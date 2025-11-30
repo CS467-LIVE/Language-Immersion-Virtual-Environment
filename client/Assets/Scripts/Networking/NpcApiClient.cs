@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class NpcApiClient : MonoBehaviour
 {
-    [SerializeField] string baseUrl;
+    [SerializeField] string baseUrl = "https://callllm-d5hd6sxxha-uc.a.run.app";
 
     public IEnumerator CallDialogue(DialogueRequest req, Action<DialogueResponse> onSuccess, Action<string> onError)
     {
@@ -23,7 +23,6 @@ public class NpcApiClient : MonoBehaviour
     {
         var url = $"{baseUrl}/{endpoint}";
         var json = JsonUtility.ToJson(body);
-        Debug.Log($"Sending request to {url} with body: {json}");
         var request = new UnityWebRequest(url, "POST");
         request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
         request.downloadHandler = new DownloadHandlerBuffer();
@@ -38,6 +37,7 @@ public class NpcApiClient : MonoBehaviour
         if (request.result != UnityWebRequest.Result.Success)
         {
             var message = $"HTTP {(long)request.responseCode} {request.error}. Server response: {respText}";
+            Debug.LogError($"NPC API request failed: {message}");
             onError?.Invoke(message);
         }
         else
