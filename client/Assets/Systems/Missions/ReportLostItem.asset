@@ -17,25 +17,25 @@ MonoBehaviour:
   objectives:
   - objectiveId: find_citizen
     type: 1
-    targetId: walletNPC
+    targetId: NPC_Distressed_Citizen
     targetCount: 1
     customEventName: 
     uiHint: Find the citizen wearing a red jacket with "!". Press E to talk.
   - objectiveId: get_general_details
     type: 0
-    targetId: walletNPC
+    targetId: NPC_Distressed_Citizen
     targetCount: 1
     customEventName: 
     uiHint: Ask the citizen what was lost.
   - objectiveId: get_specific_details
     type: 0
-    targetId: walletNPC
+    targetId: NPC_Distressed_Citizen
     targetCount: 1
     customEventName: 
     uiHint: Ask the citizen what color and shape of the lost item.
   - objectiveId: go_to_station
     type: 2
-    targetId: walletNPC
+    targetId: NPC_Distressed_Citizen
     targetCount: 1
     customEventName: 
     uiHint: Go to the Police Station and find the police officer with an "!". Press
