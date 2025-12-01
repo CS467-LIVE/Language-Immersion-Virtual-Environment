@@ -32,12 +32,17 @@ public class ChatboxUI : MonoBehaviour
         // Autofocus input
         if (npcInputField != null)
             npcInputField.ActivateInputField();
+        Debug.Log("ChatboxUI: Chat opened.");
     }
 
     public void CloseChat()
     {
+        Debug.Log("ChatboxUI: Closing chat...");
         gameObject.SetActive(false);
+        Debug.Log("ChatboxUI: Chat closed, invoking event...");
         OnChatClosed?.Invoke();
+        Debug.Log("ChatboxUI: Event invoked.");
+        Debug.Log("ChatboxUI: Chat closed.");
     }
 
     // -------------------------------------------------------------
@@ -48,7 +53,7 @@ public class ChatboxUI : MonoBehaviour
         if (npcDialogueHistory == null)
             return;
 
-        npcDialogueHistory.text += line + "\n";
+        npcDialogueHistory.text += line + "<br>";
 
         // NEW: auto-scroll
         ScrollToBottom();
@@ -87,9 +92,9 @@ public class ChatboxUI : MonoBehaviour
         AddLineToDialogue($"<color=#FF4444>[System] {message}</color>");
     }
 
-    public void AddNpc(string npcId, string msg)
+    public void AddNpc(string npcName, string msg)
     {
-        AddLineToDialogue($"{npcId}: {msg}");
+        AddLineToDialogue($"{npcName}: {msg}");
     }
 
     public void AddPlayer(string msg)

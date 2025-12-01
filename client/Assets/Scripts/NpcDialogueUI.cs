@@ -6,6 +6,7 @@ public class NpcDialogueUI : MonoBehaviour
     [Header("Visual UI")]
     public ChatboxUI chatboxUI;
 
+    [SerializeField]
     private NpcConversation currentNpc;
 
     void Update()
@@ -64,7 +65,7 @@ public class NpcDialogueUI : MonoBehaviour
 
     private void HandleNpcLine(NpcConversation npc, string line)
     {
-        chatboxUI.AddNpc(npc.npcId, line);
+        chatboxUI.AddNpc(npc.npcName, line);
     }
 
     private void HandleSystemMessage(NpcConversation npc, string msg)

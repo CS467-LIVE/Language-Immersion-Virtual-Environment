@@ -7,6 +7,7 @@ public class NpcConversation : MonoBehaviour
 {
     [Header("Config")]
     public string npcId = "walletNPC";
+    public string npcName = "John";
 
     [Header("Runtime state")]
     public int dialogueIndex = 0;
@@ -104,7 +105,7 @@ public class NpcConversation : MonoBehaviour
         dialogueIndex++;
 
         // notify missions: map dialogueIndex to a key
-        string stepKey = $"{npcId}_step_{dialogueIndex}";
+        string stepKey = $"{npcId}";
         RaiseDialogueStepEvent(stepKey);
 
         var req = new DialogueRequest

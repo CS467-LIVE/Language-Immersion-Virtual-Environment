@@ -155,6 +155,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28e97725f80ca464b8eb6890109eb01a, type: 2}
   active: []
   starsEarnedTotal: 0
+  missionDescriptionText: {fileID: 0}
+  missionHintText: {fileID: 0}
+  missionBarText: {fileID: 0}
+  indicator: {fileID: 0}
 --- !u!4 &75815472
 Transform:
   m_ObjectHideFlags: 0
@@ -370,6 +374,7 @@ MonoBehaviour:
   closeButton: {fileID: 1096129416}
   npcDialogueHistory: {fileID: 0}
   npcInputField: {fileID: 0}
+  scrollView: {fileID: 0}
 --- !u!1 &319292359 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 121442, guid: 17fd2c85588a1954eb295a34c9775577, type: 3}
@@ -387,9 +392,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846a2a027e54c447391bdd7844de6c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcName: mailbox
   npcRole: mailbox
   subjectIdOverride: bob marley
+  customEventName: 
   dialogueText: Hello!
   conversation: {fileID: 0}
   dialogueUI: {fileID: 0}
@@ -574,9 +579,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846a2a027e54c447391bdd7844de6c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcName: Sarah
   npcRole: Citizen
   subjectIdOverride: 
+  customEventName: 
   dialogueText: Hello!
   conversation: {fileID: 497286941}
   dialogueUI: {fileID: 2106551190}
@@ -600,6 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcId: walletNPC
+  npcName: John
   dialogueIndex: 0
   prevRespID: 
   apiClient: {fileID: 930957701}
@@ -1317,6 +1323,73 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 319292365}
   m_SourcePrefab: {fileID: 100100000, guid: 17fd2c85588a1954eb295a34c9775577, type: 3}
+--- !u!1 &1526773355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1526773357}
+  - component: {fileID: 1526773356}
+  - component: {fileID: 1526773358}
+  m_Layer: 0
+  m_Name: PoliceZoneTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1526773356
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526773355}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1526773357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526773355}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.6, y: -2.961822, z: 8.9}
+  m_LocalScale: {x: 9.24, y: 10.61, z: -9.42}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1526773358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526773355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e68e5db92007740a11ff8b0fc6f149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoneId: ZONE_POLICE_STATION
 --- !u!1 &1585988607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,7 +2256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatboxUI: {fileID: 0}
-  currentNpc: {fileID: 0}
 --- !u!224 &2106551191
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2605,3 +2677,4 @@ SceneRoots:
   - {fileID: 628560946}
   - {fileID: 590392040}
   - {fileID: 1161144623}
+  - {fileID: 1526773357}
