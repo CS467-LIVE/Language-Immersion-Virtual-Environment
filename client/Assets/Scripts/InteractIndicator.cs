@@ -71,13 +71,13 @@ public class InteractIndicator : MonoBehaviour
         interactIndicator.transform.Rotate(0f, 180f, 0f);
 
         // Note: Interaction is now handled by PlayerInteraction + NPCInteractable
-        // This script only shows the visual "Press E" indicator
-        // To re-enable camera movement, call BeginConversationCameraMove() from NPCInteractable or NpcDialogueUI
     }
 
     public void BeginConversationCameraMove()
     {
         inConversation = true;
+
+        interactIndicator.enabled = false;   // <<< MINIMAL FIX (THE ONLY CHANGE)
 
         if (cameraController)
             cameraController.enabled = false;
