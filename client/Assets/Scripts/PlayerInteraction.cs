@@ -23,7 +23,13 @@ public class PlayerInteraction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // Check both the object itself and its parent for NPCInteractable
         NPCInteractable npc = other.GetComponent<NPCInteractable>();
+        if (npc == null)
+        {
+            npc = other.GetComponentInParent<NPCInteractable>();
+        }
+
         if (npc != null)
         {
             currentNPC = npc;
@@ -33,7 +39,13 @@ public class PlayerInteraction : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        // Check both the object itself and its parent for NPCInteractable
         NPCInteractable npc = other.GetComponent<NPCInteractable>();
+        if (npc == null)
+        {
+            npc = other.GetComponentInParent<NPCInteractable>();
+        }
+
         if (npc != null && npc == currentNPC)
         {
             currentNPC = null;

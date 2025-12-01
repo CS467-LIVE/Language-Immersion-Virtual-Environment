@@ -1,170 +1,455 @@
 fileFormatVersion: 2
 guid: 91028badc63f59f43a9c5bda64fbd608
-timeCreated: 1545009694
-licenseType: Store
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95214
+  packageName: POLYGON City - Low Poly 3D Art by Synty
+  packageVersion: 1.11.4
+  assetPath: Assets/PolygonCity/Models/FixedScaleCharacters/Characters.fbx
+  uploadId: 735876
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: Ankle_L
-    100002: Ankle_R
-    100004: Ball_L
-    100006: Ball_R
-    100008: Character_BusinessMan_Shirt
-    100010: Character_BusinessMan_Suit
-    100012: Character_BusinessWoman
-    100014: Character_Female_Coat
-    100016: Character_Female_Jacket
-    100018: Character_Female_Police
-    100020: Character_Male_Hoodie
-    100022: Character_Male_Jacket
-    100024: Character_Male_Police
-    100026: //RootNode
-    100028: Clavicle_L
-    100030: Clavicle_R
-    100032: Elbow_L
-    100034: Elbow_R
-    100036: Eyebrows
-    100038: Eyes
-    100040: Finger_01
-    100042: Finger_01 1
-    100044: Finger_02
-    100046: Finger_02 1
-    100048: Finger_03
-    100050: Finger_03 1
-    100052: Finger_04
-    100054: Finger_04 1
-    100056: Hand_L
-    100058: Hand_R
-    100060: Head
-    100062: Hips
-    100064: IndexFinger_01
-    100066: IndexFinger_01 1
-    100068: IndexFinger_02
-    100070: IndexFinger_02 1
-    100072: IndexFinger_03
-    100074: IndexFinger_03 1
-    100076: IndexFinger_04
-    100078: IndexFinger_04 1
-    100080: LowerLeg_L
-    100082: LowerLeg_R
-    100084: Neck
-    100086: Root
-    100088: Shoulder_L
-    100090: Shoulder_R
-    100092: Spine_01
-    100094: Spine_02
-    100096: Spine_03
-    100098: Thumb_01
-    100100: Thumb_01 1
-    100102: Thumb_02
-    100104: Thumb_02 1
-    100106: Thumb_03
-    100108: Thumb_03 1
-    100110: Toes_L
-    100112: Toes_R
-    100114: UpperLeg_L
-    100116: UpperLeg_R
-    400000: Ankle_L
-    400002: Ankle_R
-    400004: Ball_L
-    400006: Ball_R
-    400008: Character_BusinessMan_Shirt
-    400010: Character_BusinessMan_Suit
-    400012: Character_BusinessWoman
-    400014: Character_Female_Coat
-    400016: Character_Female_Jacket
-    400018: Character_Female_Police
-    400020: Character_Male_Hoodie
-    400022: Character_Male_Jacket
-    400024: Character_Male_Police
-    400026: //RootNode
-    400028: Clavicle_L
-    400030: Clavicle_R
-    400032: Elbow_L
-    400034: Elbow_R
-    400036: Eyebrows
-    400038: Eyes
-    400040: Finger_01
-    400042: Finger_01 1
-    400044: Finger_02
-    400046: Finger_02 1
-    400048: Finger_03
-    400050: Finger_03 1
-    400052: Finger_04
-    400054: Finger_04 1
-    400056: Hand_L
-    400058: Hand_R
-    400060: Head
-    400062: Hips
-    400064: IndexFinger_01
-    400066: IndexFinger_01 1
-    400068: IndexFinger_02
-    400070: IndexFinger_02 1
-    400072: IndexFinger_03
-    400074: IndexFinger_03 1
-    400076: IndexFinger_04
-    400078: IndexFinger_04 1
-    400080: LowerLeg_L
-    400082: LowerLeg_R
-    400084: Neck
-    400086: Root
-    400088: Shoulder_L
-    400090: Shoulder_R
-    400092: Spine_01
-    400094: Spine_02
-    400096: Spine_03
-    400098: Thumb_01
-    400100: Thumb_01 1
-    400102: Thumb_02
-    400104: Thumb_02 1
-    400106: Thumb_03
-    400108: Thumb_03 1
-    400110: Toes_L
-    400112: Toes_R
-    400114: UpperLeg_L
-    400116: UpperLeg_R
-    4300000: Character_Male_Police
-    4300002: Character_BusinessMan_Shirt
-    4300004: Character_BusinessMan_Suit
-    4300006: Character_Male_Hoodie
-    4300008: Character_Male_Jacket
-    4300010: Character_Female_Coat
-    4300012: Character_BusinessWoman
-    4300014: Character_Female_Police
-    4300016: Character_Female_Jacket
-    7400000: Take 001
-    9500000: //RootNode
-    13700000: Character_BusinessMan_Shirt
-    13700002: Character_BusinessMan_Suit
-    13700004: Character_BusinessWoman
-    13700006: Character_Female_Coat
-    13700008: Character_Female_Jacket
-    13700010: Character_Female_Police
-    13700012: Character_Male_Hoodie
-    13700014: Character_Male_Jacket
-    13700016: Character_Male_Police
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Ankle_L
+  - first:
+      1: 100002
+    second: Ankle_R
+  - first:
+      1: 100004
+    second: Ball_L
+  - first:
+      1: 100006
+    second: Ball_R
+  - first:
+      1: 100008
+    second: Character_BusinessMan_Shirt
+  - first:
+      1: 100010
+    second: Character_BusinessMan_Suit
+  - first:
+      1: 100012
+    second: Character_BusinessWoman
+  - first:
+      1: 100014
+    second: Character_Female_Coat
+  - first:
+      1: 100016
+    second: Character_Female_Jacket
+  - first:
+      1: 100018
+    second: Character_Female_Police
+  - first:
+      1: 100020
+    second: Character_Male_Hoodie
+  - first:
+      1: 100022
+    second: Character_Male_Jacket
+  - first:
+      1: 100024
+    second: Character_Male_Police
+  - first:
+      1: 100026
+    second: //RootNode
+  - first:
+      1: 100028
+    second: Clavicle_L
+  - first:
+      1: 100030
+    second: Clavicle_R
+  - first:
+      1: 100032
+    second: Elbow_L
+  - first:
+      1: 100034
+    second: Elbow_R
+  - first:
+      1: 100036
+    second: Eyebrows
+  - first:
+      1: 100038
+    second: Eyes
+  - first:
+      1: 100040
+    second: Finger_01
+  - first:
+      1: 100042
+    second: Finger_01 1
+  - first:
+      1: 100044
+    second: Finger_02
+  - first:
+      1: 100046
+    second: Finger_02 1
+  - first:
+      1: 100048
+    second: Finger_03
+  - first:
+      1: 100050
+    second: Finger_03 1
+  - first:
+      1: 100052
+    second: Finger_04
+  - first:
+      1: 100054
+    second: Finger_04 1
+  - first:
+      1: 100056
+    second: Hand_L
+  - first:
+      1: 100058
+    second: Hand_R
+  - first:
+      1: 100060
+    second: Head
+  - first:
+      1: 100062
+    second: Hips
+  - first:
+      1: 100064
+    second: IndexFinger_01
+  - first:
+      1: 100066
+    second: IndexFinger_01 1
+  - first:
+      1: 100068
+    second: IndexFinger_02
+  - first:
+      1: 100070
+    second: IndexFinger_02 1
+  - first:
+      1: 100072
+    second: IndexFinger_03
+  - first:
+      1: 100074
+    second: IndexFinger_03 1
+  - first:
+      1: 100076
+    second: IndexFinger_04
+  - first:
+      1: 100078
+    second: IndexFinger_04 1
+  - first:
+      1: 100080
+    second: LowerLeg_L
+  - first:
+      1: 100082
+    second: LowerLeg_R
+  - first:
+      1: 100084
+    second: Neck
+  - first:
+      1: 100086
+    second: Root
+  - first:
+      1: 100088
+    second: Shoulder_L
+  - first:
+      1: 100090
+    second: Shoulder_R
+  - first:
+      1: 100092
+    second: Spine_01
+  - first:
+      1: 100094
+    second: Spine_02
+  - first:
+      1: 100096
+    second: Spine_03
+  - first:
+      1: 100098
+    second: Thumb_01
+  - first:
+      1: 100100
+    second: Thumb_01 1
+  - first:
+      1: 100102
+    second: Thumb_02
+  - first:
+      1: 100104
+    second: Thumb_02 1
+  - first:
+      1: 100106
+    second: Thumb_03
+  - first:
+      1: 100108
+    second: Thumb_03 1
+  - first:
+      1: 100110
+    second: Toes_L
+  - first:
+      1: 100112
+    second: Toes_R
+  - first:
+      1: 100114
+    second: UpperLeg_L
+  - first:
+      1: 100116
+    second: UpperLeg_R
+  - first:
+      4: 400000
+    second: Ankle_L
+  - first:
+      4: 400002
+    second: Ankle_R
+  - first:
+      4: 400004
+    second: Ball_L
+  - first:
+      4: 400006
+    second: Ball_R
+  - first:
+      4: 400008
+    second: Character_BusinessMan_Shirt
+  - first:
+      4: 400010
+    second: Character_BusinessMan_Suit
+  - first:
+      4: 400012
+    second: Character_BusinessWoman
+  - first:
+      4: 400014
+    second: Character_Female_Coat
+  - first:
+      4: 400016
+    second: Character_Female_Jacket
+  - first:
+      4: 400018
+    second: Character_Female_Police
+  - first:
+      4: 400020
+    second: Character_Male_Hoodie
+  - first:
+      4: 400022
+    second: Character_Male_Jacket
+  - first:
+      4: 400024
+    second: Character_Male_Police
+  - first:
+      4: 400026
+    second: //RootNode
+  - first:
+      4: 400028
+    second: Clavicle_L
+  - first:
+      4: 400030
+    second: Clavicle_R
+  - first:
+      4: 400032
+    second: Elbow_L
+  - first:
+      4: 400034
+    second: Elbow_R
+  - first:
+      4: 400036
+    second: Eyebrows
+  - first:
+      4: 400038
+    second: Eyes
+  - first:
+      4: 400040
+    second: Finger_01
+  - first:
+      4: 400042
+    second: Finger_01 1
+  - first:
+      4: 400044
+    second: Finger_02
+  - first:
+      4: 400046
+    second: Finger_02 1
+  - first:
+      4: 400048
+    second: Finger_03
+  - first:
+      4: 400050
+    second: Finger_03 1
+  - first:
+      4: 400052
+    second: Finger_04
+  - first:
+      4: 400054
+    second: Finger_04 1
+  - first:
+      4: 400056
+    second: Hand_L
+  - first:
+      4: 400058
+    second: Hand_R
+  - first:
+      4: 400060
+    second: Head
+  - first:
+      4: 400062
+    second: Hips
+  - first:
+      4: 400064
+    second: IndexFinger_01
+  - first:
+      4: 400066
+    second: IndexFinger_01 1
+  - first:
+      4: 400068
+    second: IndexFinger_02
+  - first:
+      4: 400070
+    second: IndexFinger_02 1
+  - first:
+      4: 400072
+    second: IndexFinger_03
+  - first:
+      4: 400074
+    second: IndexFinger_03 1
+  - first:
+      4: 400076
+    second: IndexFinger_04
+  - first:
+      4: 400078
+    second: IndexFinger_04 1
+  - first:
+      4: 400080
+    second: LowerLeg_L
+  - first:
+      4: 400082
+    second: LowerLeg_R
+  - first:
+      4: 400084
+    second: Neck
+  - first:
+      4: 400086
+    second: Root
+  - first:
+      4: 400088
+    second: Shoulder_L
+  - first:
+      4: 400090
+    second: Shoulder_R
+  - first:
+      4: 400092
+    second: Spine_01
+  - first:
+      4: 400094
+    second: Spine_02
+  - first:
+      4: 400096
+    second: Spine_03
+  - first:
+      4: 400098
+    second: Thumb_01
+  - first:
+      4: 400100
+    second: Thumb_01 1
+  - first:
+      4: 400102
+    second: Thumb_02
+  - first:
+      4: 400104
+    second: Thumb_02 1
+  - first:
+      4: 400106
+    second: Thumb_03
+  - first:
+      4: 400108
+    second: Thumb_03 1
+  - first:
+      4: 400110
+    second: Toes_L
+  - first:
+      4: 400112
+    second: Toes_R
+  - first:
+      4: 400114
+    second: UpperLeg_L
+  - first:
+      4: 400116
+    second: UpperLeg_R
+  - first:
+      43: 4300000
+    second: Character_Male_Police
+  - first:
+      43: 4300002
+    second: Character_BusinessMan_Shirt
+  - first:
+      43: 4300004
+    second: Character_BusinessMan_Suit
+  - first:
+      43: 4300006
+    second: Character_Male_Hoodie
+  - first:
+      43: 4300008
+    second: Character_Male_Jacket
+  - first:
+      43: 4300010
+    second: Character_Female_Coat
+  - first:
+      43: 4300012
+    second: Character_BusinessWoman
+  - first:
+      43: 4300014
+    second: Character_Female_Police
+  - first:
+      43: 4300016
+    second: Character_Female_Jacket
+  - first:
+      74: 7400000
+    second: Take 001
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Character_BusinessMan_Shirt
+  - first:
+      137: 13700002
+    second: Character_BusinessMan_Suit
+  - first:
+      137: 13700004
+    second: Character_BusinessWoman
+  - first:
+      137: 13700006
+    second: Character_Female_Coat
+  - first:
+      137: 13700008
+    second: Character_Female_Jacket
+  - first:
+      137: 13700010
+    second: Character_Female_Police
+  - first:
+      137: 13700012
+    second: Character_Male_Hoodie
+  - first:
+      137: 13700014
+    second: Character_Male_Jacket
+  - first:
+      137: 13700016
+    second: Character_Male_Police
+  externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -172,26 +457,49 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 0
     keepQuads: 0
     weldVertices: 0
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: 1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 5
     normalImportMode: 1
     tangentImportMode: 3
-  importAnimation: 0
-  copyAvatar: 0
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human:
     - boneName: Hips
       humanName: Hips
@@ -832,22 +1140,20 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 95214
-  packageName: POLYGON City - Low Poly 3D Art by Synty
-  packageVersion: 1.11.4
-  assetPath: Assets/PolygonCity/Models/FixedScaleCharacters/Characters.fbx
-  uploadId: 735876
