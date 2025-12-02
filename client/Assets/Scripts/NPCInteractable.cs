@@ -77,7 +77,7 @@ public class NPCInteractable : MonoBehaviour
                     ? conversation.npcId
                     : name); // fallback to GameObject name
 
-        //Debug.Log($"[NPC] Using subjectId: {subjectId}");
+        // Debug.Log($"[NPC] Using subjectId: {subjectId}");
         // Raise event for mission system
         GameEvents.Raise(new GameEvent
         {

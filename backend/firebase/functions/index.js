@@ -69,7 +69,7 @@ const callDialogueLLM = async (npcID, dialogueIndex = 0, userInput = "", prevRes
 app.post("/dialogue", async (req, res) => {
   try {
     const {npcID, dialogueIndex, userInput, prevRespID, language} = req.body;
-
+    // console.log("npcID:", npcID, "dialogueIndex:", dialogueIndex, "userInput:", userInput, "prevRespID:", prevRespID, "language:", language);
     const languageName = languageCodeMap[language];
     if (!languageName) {
       res.status(400).send("Invalid language");
@@ -166,7 +166,7 @@ const semanticEval = async (npcID, dialogueIndex = 0, userInput = "", prevRespID
 app.post("/evaluate", async (req, res) => {
   try {
     const {npcID, dialogueIndex, userInput, prevRespID, language} = req.body;
-
+    // console.log("npcID:", npcID, "dialogueIndex:", dialogueIndex, "userInput:", userInput, "prevRespID:", prevRespID, "language:", language);
     const languageName = languageCodeMap[language];
     if (!languageName) {
       res.status(400).send("Invalid language");

@@ -93,7 +93,7 @@ namespace Systems.Missions
                 var obj = def.objectives[0];
                 Transform t = FindTargetByName(obj.targetId);
 
-                Debug.Log($"[MissionManager] LOOKING FOR FIRST TARGET: {obj.targetId} → {(t ? "FOUND: " + t.name : "NOT FOUND")}");
+                //Debug.Log($"[MissionManager] LOOKING FOR FIRST TARGET: {obj.targetId} → {(t ? "FOUND: " + t.name : "NOT FOUND")}");
 
                 indicator.SetTarget(t);
             }
@@ -185,7 +185,7 @@ namespace Systems.Missions
                             {
                                 Transform t = FindTargetByName(next.targetId);
 
-                                Debug.Log($"[MissionManager] LOOKING FOR NEXT TARGET: {next.targetId} → {(t ? "FOUND: " + t.name : "NOT FOUND")}");
+                                //Debug.Log($"[MissionManager] LOOKING FOR NEXT TARGET: {next.targetId} → {(t ? "FOUND: " + t.name : "NOT FOUND")}");
 
                                 indicator.SetTarget(t);
                             }
@@ -196,7 +196,7 @@ namespace Systems.Missions
                 }
                 else
                 {
-                    //Debug.Log("[MissionManager] Event did NOT match for mission '" + def.missionId + "', objective '" + oDef.objectiveId + "'");
+                    Debug.Log("[MissionManager] Event did NOT match for mission '" + def.missionId + "', objective '" + oDef.objectiveId + "'");
                 }
             }
         }
@@ -221,7 +221,7 @@ namespace Systems.Missions
             if (targetId.StartsWith("ANY_"))
             {
                 string baseType = targetId.Substring(4);
-                return subjectId.StartsWith(baseType);
+                return subjectId == targetId || subjectId.StartsWith(baseType);
             }
 
             return subjectId == targetId;

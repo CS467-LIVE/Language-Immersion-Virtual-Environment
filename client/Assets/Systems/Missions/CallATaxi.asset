@@ -17,37 +17,43 @@ MonoBehaviour:
   objectives:
   - objectiveId: talk_to_hobo
     type: 1
-    targetId: NPC_Hobo
+    targetId: hoboNPC
     targetCount: 1
     customEventName: 
     uiHint: Find the traveler with "!" on the corner of a street. Press E to talk.
-  - objectiveId: hobo_pickup
-    type: 0
-    targetId: NPC_Hobo
-    targetCount: 1
-    customEventName: 
-    uiHint: Ask the traveler where he would liked to be picked up.
   - objectiveId: hobo_dropoff
     type: 0
-    targetId: NPC_Hobo
+    targetId: hoboNPC
     targetCount: 1
     customEventName: 
     uiHint: Ask the traveler where he would like to go.
+  - objectiveId: hobo_pickup
+    type: 0
+    targetId: hoboNPC
+    targetCount: 1
+    customEventName: 
+    uiHint: Ask the traveler where he would liked to be picked up.
+  - objectiveId: hobo_promise
+    type: 0
+    targetId: hoboNPC
+    targetCount: 1
+    customEventName: 
+    uiHint: Promise you will call call a taxi for the homeless person <3
   - objectiveId: find_phone_booth
     type: 1
-    targetId: Phone_Booth_1
+    targetId: phoneBoothNPC
     targetCount: 1
     customEventName: 
     uiHint: Find a phone booth to call a Taxi. Press E to interact.
   - objectiveId: provide_pickup_location
     type: 0
-    targetId: Phone_Booth_1
+    targetId: phoneBoothNPC
     targetCount: 1
     customEventName: 
     uiHint: Provide the correct pick up location of the traveler.
   - objectiveId: provide_dropoff_location
     type: 0
-    targetId: Phone_Booth_1
+    targetId: phoneBoothNPC
     targetCount: 1
     customEventName: 
     uiHint: Provide the correct dropoff location for the traveler.
