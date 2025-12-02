@@ -44,7 +44,7 @@ const npcData = {
       // player approaches police NPC after completing first convo with wallet NPC
       // NPC response should be something like: "What seems to be the issue?"
       "policeDialogue0": "You are approached by a citizen who wants to report a situation to the police. You ask them to describe their issue.",
-      "policeDialogue1": "The citizen has described their lost item. You confirm the details of the lost item: a square, dark brown wallet. You let them know you will file the report.",
+      "policeDialogue1": "The citizen has described their lost item. You let them know you will file the report.",
     },
     "dialogueSequence": ["policeDialogue0", "policeDialogue1"],
     "correctResponses": {
