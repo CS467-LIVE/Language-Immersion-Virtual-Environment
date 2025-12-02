@@ -1,9 +1,21 @@
 import {onRequest} from "firebase-functions/v2/https";
 import express from "express";
+import cors from "cors";
 import OpenAI from "openai";
 import npcData from "./npcData.js";
 
 const app = express();
+
+
+app.use(cors({
+  origin: [
+    "https://cs467-live.github.io",
+  ],
+  credentials: true,
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+
 app.use(express.json());
 
 const openai = new OpenAI({
@@ -124,7 +136,8 @@ const semanticEval = async (npcID, dialogueIndex = 0, userInput = "", prevRespID
             Correct Reference Response: "${correctResponse}"
             User Input: "${userInput}"
 
-            Assuming that we were to translate both the Correct Reference Response and the User Input to ${languageName}:
+            Assuming that we were to translate the Correct Reference Response into ${languageName}.
+            Is the user input the same language as ${languageName}?
             Is the user input phrase free of spelling errors?
             If so, is the user input free of language syntax errors?
             If so, does the user input phrase make sense as a reply to the LLM NPCs last output and is similar to the correct reference response?
