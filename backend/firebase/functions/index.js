@@ -1,4 +1,4 @@
-import {onRequest} from "firebase-functions/v2/https";
+import { onRequest } from "firebase-functions/v2/https";
 import express from "express";
 import cors from "cors";
 import OpenAI from "openai";
@@ -66,7 +66,7 @@ const callDialogueLLM = async (npcID, dialogueIndex = 0, userInput = "", prevRes
 
   const response = await openai.responses.create({
     model: "gpt-5-nano",
-    ...(prevRespID && {previous_response_id: prevRespID}),
+    ...(prevRespID && { previous_response_id: prevRespID }),
     input: messages,
     store: true,
   });
@@ -149,7 +149,7 @@ const semanticEval = async (npcID, dialogueIndex = 0, userInput = "", prevRespID
 
   const response = await openai.responses.create({
     model: "gpt-5-nano",
-    ...(prevRespID && {previous_response_id: prevRespID}),
+    ...(prevRespID && { previous_response_id: prevRespID }),
     input: messages,
     store: true,
   });
